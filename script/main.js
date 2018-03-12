@@ -1,18 +1,46 @@
 
 
-async function getAuctionContent(){
+async function populateListOfAuctionsInDiv(){
 
-let auktionResponse = await fetchAuction(4);
-let budResponse = await fetchBidForAuction(1);
+let auktionResponse = await fetchAuctions();
 
-document.getElementById("auktion").innerHTML = auktionResponse.Titel;
 
-console.log(auktionResponse);
-console.log(budResponse);
+
+for(let auktionContent of auktionResponse){
+
+var title = JSON.stringify(auktionContent.Titel).replace (/"/g,'');
+var description = JSON.stringify(auktionContent.Beskrivning).replace (/"/g,'');
+var startDate = JSON.stringify(auktionContent.StartDatum).replace (/"/g,'');
+var endDate = JSON.stringify(auktionContent.SlutDatum).replace (/"/g,'');
+var startingPrice = JSON.stringify(auktionContent.Utropspris).replace (/"/g,'');
+
+var status = getAuctionStatus(endDate);
+
+var auction = title + " - " + description + " - " + startDate + " - " + endDate + " - " + startingPrice;
+
+document.getElementById("listOfAuctions").innerHTML += auction + " - " + status + "<br />" ;
 }
 
-async function fetchAuction(auction){
-	var urlForGettingAuction = "https://nackowskis.azurewebsites.net/api/auktion/400/" + auction;
+}
+
+function getAuctionStatus(endDate){
+	var currentdate = new Date();
+	var endTime = Date.parse(endDate);
+	var status;
+	if(currentdate < endTime) status = "Öppen";
+	else status = "Stängd";
+	return status;
+}
+
+async function populateBidsInDivofAuction(auction){
+
+let budResponse = await fetchBidForAuction(auction);
+document.getElementById("auction").innerHTML = "Bids for auction" + auction + ": " + JSON.stringify(budResponse) + "<br />";
+
+}
+
+async function fetchAuctions(){
+	var urlForGettingAuction = "https://nackowskis.azurewebsites.net/api/auktion/400/";
 
 	let auctionData = await fetch(urlForGettingAuction);
 	let auctionInJsonFormat = await auctionData.json();
@@ -29,6 +57,6 @@ async function fetchBidForAuction(auction){
 	return bidInJsonFormat;
 }
 
-getAuctionContent();
-
+populateListOfAuctionsInDiv();
+populateBidsInDivofAuction(4);
 
