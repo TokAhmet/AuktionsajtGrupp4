@@ -1,9 +1,14 @@
+
+
 async function getData(){
 
 let auktionResponse = await fetchData("http://nackowskis.azurewebsites.net/api/auktion/400/");
 let budResponse = await fetchData("http://nackowskis.azurewebsites.net/api/bud/400/1");
+
+JSON.stringify(auktionResponse);
+
 console.log(auktionResponse);
-console.log(budResponse);
+/*console.log(budResponse);*/
 
 }
 
@@ -15,4 +20,11 @@ async function fetchData(url){
 	return data;
 }
 
+
 getData();
+
+
+
+
+
+
