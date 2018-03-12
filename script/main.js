@@ -1,9 +1,9 @@
 
 
-async function getData(){
+async function getAuctionContent(){
 
-let auktionResponse = await fetchData("https://nackowskis.azurewebsites.net/api/auktion/400/4/");
-let budResponse = await fetchData("https://nackowskis.azurewebsites.net/api/bud/400/1/");
+let auktionResponse = await fetchAuction(4);
+let budResponse = await fetchBidForAuction(1);
 
 document.getElementById("auktion").innerHTML = auktionResponse.Titel;
 
@@ -11,14 +11,24 @@ console.log(auktionResponse);
 console.log(budResponse);
 }
 
-async function fetchData(url){
+async function fetchAuction(auction){
+	var urlForGettingAuction = "https://nackowskis.azurewebsites.net/api/auktion/400/" + auction;
 
-	let promise = await fetch(url);
-	let data = await promise.json();
+	let auctionData = await fetch(urlForGettingAuction);
+	let auctionInJsonFormat = await auctionData.json();
 
-	return data;
+	return auctionInJsonFormat;
 }
 
-getData();
+async function fetchBidForAuction(auction){
+	var urlForGettingBid = "https://nackowskis.azurewebsites.net/api/bud/400/" + auction;
+
+	let bidForAuction = await fetch(urlForGettingBid);
+	let bidInJsonFormat = await bidForAuction.json();
+
+	return bidInJsonFormat;
+}
+
+getAuctionContent();
 
 
