@@ -1,3 +1,5 @@
+
+
 async function getData(){
 
 let auktionResponse = await fetchData("http://nackowskis.azurewebsites.net/api/auktion/400/");
@@ -16,3 +18,5 @@ async function fetchData(url){
 }
 
 getData();
+
+
