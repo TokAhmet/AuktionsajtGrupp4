@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
  
 
 async function populateListOfAuctionsInDiv(){
@@ -25,7 +25,7 @@ document.getElementById("auktion3").innerHTML += auction + " - " + status + "<br
 document.getElementById("auktion4").innerHTML += auction + " - " + status + "<br />" ;
 document.getElementById("auktion5").innerHTML += auction + " - " + status + "<br />" ;
 }
-=======
+
 async function populateListOfAuctionsInDiv() {
 
   let auktionResponse = await fetchAuctions();
@@ -51,26 +51,7 @@ async function populateListOfAuctionsInDiv() {
     newDiv.innerHTML = test + "<br />" +  text;
     auktionDiv.appendChild(newDiv);
 	}
-  // for (let auktionContent of auktionResponse) {
-  //
-  //   var title = JSON.stringify(auktionContent.Titel).replace(/"/g, "");
-  //   var description = JSON.stringify(auktionContent.Beskrivning).replace(/"/g, "");
-  //   var startDate = JSON.stringify(auktionContent.StartDatum).replace(/"/g, "");
-  //   var endDate = JSON.stringify(auktionContent.SlutDatum).replace(/"/g, "");
-  //   var startingPrice = JSON.stringify(auktionContent.Utropspris).replace(/"/g, "");
-  //
-  //   var status = getAuctionStatus(endDate);
-  //
-  //   var auction = title + "<br />" + description + "<br />" + startDate + "<br />" + endDate + "<br /> Summa: " + startingPrice;
-  //
-  //   document.getElementById("auktion1").innerHTML += auction + "<br />" + status + "<br />";
-  //   document.getElementById("auktion2").innerHTML += auction + "<br />" + status + "<br />";
-  //   document.getElementById("auktion3").innerHTML += auction + "<br />" + status + "<br />";
-  //   document.getElementById("auktion4").innerHTML += auction + "<br />" + status + "<br />";
-  //   document.getElementById("auktion5").innerHTML += auction + "<br />" + status + "<br />";
-  // }
->>>>>>> master
-
+  
 }
 
 function getAuctionStatus(endDate) {
@@ -109,7 +90,7 @@ async function fetchBidForAuction(auction) {
   return bidInJsonFormat;
 }
 
-<<<<<<< HEAD
+
 function create() {
 	fetch("https://nackowskis.azurewebsites.net/api/auktion/400/", {
 		method: "POST",
@@ -142,7 +123,7 @@ function remove() {
 	.then(res => console.log(res));
 }
 
-=======
+
 function createAuction() {
   fetch("https://nackowskis.azurewebsites.net/api/auktion/400/", {
     method: "POST",
@@ -193,6 +174,5 @@ function removeBud(id) {
   }).then(res => res.json()).then(res => console.log(res));
 }
 
->>>>>>> master
 populateListOfAuctionsInDiv();
 populateBidsInDivofAuction(4);
