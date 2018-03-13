@@ -55,12 +55,12 @@ async function fetchBidForAuction(auction){
 	return bidInJsonFormat;
 }
 
-<<<<<<< HEAD
+
 
 function create() {
-=======
+
 function createAuction() {
->>>>>>> master
+
 	fetch("https://nackowskis.azurewebsites.net/api/auktion/400/", {
 		method: "POST",
 		headers: {
