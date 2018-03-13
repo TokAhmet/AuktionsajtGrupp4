@@ -1,59 +1,32 @@
 async function populateListOfAuctionsInDiv() {
 
-  // hämtar Auktion URL
   let auktionResponse = await fetchAuctions();
   console.log(auktionResponse);
 
   let auktionDiv = document.getElementById("auktion-container");
   let searchButton = document.getElementById("searchButton");
+  populateStartPageWithDataOfAuctions(auktionResponse);
 
-  //Sök Function inom Auktioner
+
   searchButton.addEventListener("click", function() {
     let searchInput = document.getElementById("searchInput").value;
     let result = auktionResponse.filter(value => value.Titel.includes(searchInput));
-    var status = getAuctionStatus(endDate);
-
-    auktionDiv.innerHTML = " ";
-
-    if (result.length != 0 && searchInput !== "") {
+ 
+    if (result.length != 0) {
       auktionDiv.className = "auktion-container";
-      for (let value of result) {
-
-        let content = document.createElement("div");
-        content.setAttribute("class", "newDiv");
-
-        var title = JSON.stringify(value.Titel).replace(/"/g, "");
-        var description = JSON.stringify(value.Beskrivning).replace(/"/g, "");
-        var startDate = JSON.stringify(value.StartDatum).replace(/"/g, "");
-        var endDate = JSON.stringify(value.SlutDatum).replace(/"/g, "");
-        var startingPrice = JSON.stringify(value.Utropspris).replace(/"/g, "");
-
-        var text = "<h2>" + title + "</h2>" + "<p>" + description + "</p>" + "<p>" + startDate + "</p>" + "<p>" + endDate + "</p>" + "<p> Summa: " + startingPrice + "</p>" + "<p>Status: " + status + "</p>";
-
-        content.innerHTML = text;
-
-        auktionDiv.appendChild(content);
-      }
-
-    } else if(searchInput === "") {
-      auktionDiv.className = "auktion-search";
-      auktionDiv.innerHTML = "Du måste skriva in något";
-    }
+      auktionDiv.innerHTML = " ";
+	  populateStartPageWithDataOfAuctions(result);
+    } 
     else {
       auktionDiv.className = "auktion-search";
       auktionDiv.innerHTML = "Inga hittade matchningar";
     }
   });
 
-  //Loopa genom alla Auktioner och lägg up de i varsin div
-  populateStartPageWithDataOfAuctions(auktionResponse);
-
-
 }
 
 
-function populateStartPageWithDataOfAuctions(auktionResponse){
-	let result = auktionResponse.filter(value => true);
+function populateStartPageWithDataOfAuctions(result){
 	let auktionDiv = document.getElementById("auktion-container");
 	for (let auction of result) {
 
@@ -76,6 +49,9 @@ function populateStartPageWithDataOfAuctions(auktionResponse){
   }
 
 }
+
+
+
 
 // Kolla om datum stämmer med Auktionens
 function getAuctionStatus(endDate) {
@@ -171,3 +147,4 @@ function removeBud(id) {
 }
 
 populateListOfAuctionsInDiv();
+
