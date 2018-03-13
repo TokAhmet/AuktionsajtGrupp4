@@ -16,7 +16,11 @@ var status = getAuctionStatus(endDate);
 
 var auction = title + " - " + description + " - " + startDate + " - " + endDate + " - " + startingPrice;
 
-document.getElementById("listOfAuctions").innerHTML += auction + " - " + status + "<br />" ;
+document.getElementById("auktion1").innerHTML += auction + " - " + status + "<br />" ;
+document.getElementById("auktion2").innerHTML += auction + " - " + status + "<br />" ;
+document.getElementById("auktion3").innerHTML += auction + " - " + status + "<br />" ;
+document.getElementById("auktion4").innerHTML += auction + " - " + status + "<br />" ;
+document.getElementById("auktion5").innerHTML += auction + " - " + status + "<br />" ;
 }
 
 }

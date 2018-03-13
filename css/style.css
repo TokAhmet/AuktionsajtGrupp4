@@ -15,23 +15,23 @@ ul {
 }
 
 .header-container {
-  width: 100%;
   background-color: #000;
+  width: 100%;
 }
 
 .header-wrapper {
-  max-width: 80%;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
   height: 4rem;
   margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  max-width: 80%;
 }
 
 .header-wrapper input {
-  width: 20rem;
-  padding: 0.5rem;
   border: none;
+  padding: 0.5rem;
+  width: 20rem;
 }
 .main-name {
   color: #fff;
@@ -39,18 +39,18 @@ ul {
 }
 
 .search-content {
-  display: flex;
   border: #a3a3a3;
+  display: flex;
 }
 
 .search-content input{
-  width: 30%;
+  background-color: white;
   box-sizing: border-box;
   border: 2px solid #ccc;
   font-size: 16px;
-  background-color: white;
   -webkit-transition: width 0.8s ease-in-out;
   transition: width 0.8s ease-in-out;
+  width: 30%;
 }
 
 .search-content input:focus{
@@ -67,16 +67,16 @@ ul {
   display: flex;
   justify-content: space-between;
   flex-flow: row wrap;
-  max-width: 80%;
+  max-width: 90%;
   margin: 2rem auto;
 }
 
-.auktion-wrapper div{
-  width: 20%;
-
+.auktion-wrapper {
+  width: 15%;
+  margin: 1rem;
 }
 
-.auktion-wrapper h1{
+.auktion-wrapper h3{
   cursor: pointer;
 
 }
