@@ -1,34 +1,36 @@
 async function populateListOfAuctionsInDiv() {
 
-  let auktionResponse = await fetchAuctions();
-  console.log(auktionResponse);
+  let auctions = await fetchAuctions();
 
+  populateStartPageWithDataOfAuctions(auctions);
+
+  addAnEventListenerToSearchButton(auctions);
+
+}
+
+function addAnEventListenerToSearchButton(auctions){
   let auktionDiv = document.getElementById("auktion-container");
-  let searchButton = document.getElementById("searchButton");
-  populateStartPageWithDataOfAuctions(auktionResponse);
-
-
-  searchButton.addEventListener("click", function() {
+	  let searchButton = document.getElementById("searchButton");
+	  searchButton.addEventListener("click", function() {
     let searchInput = document.getElementById("searchInput").value;
-    let result = auktionResponse.filter(value => value.Titel.includes(searchInput));
+    let filteredAuctions = auctions.filter(value => value.Titel.includes(searchInput));
  
-    if (result.length != 0) {
+    if (filteredAuctions.length != 0) {
       auktionDiv.className = "auktion-container";
       auktionDiv.innerHTML = " ";
-	  populateStartPageWithDataOfAuctions(result);
+	  populateStartPageWithDataOfAuctions(filteredAuctions);
     } 
     else {
       auktionDiv.className = "auktion-search";
       auktionDiv.innerHTML = "Inga hittade matchningar";
     }
   });
-
 }
 
 
-function populateStartPageWithDataOfAuctions(result){
+function populateStartPageWithDataOfAuctions(auctions){
 	let auktionDiv = document.getElementById("auktion-container");
-	for (let auction of result) {
+	for (let auction of auctions) {
 
 	    let content = document.createElement("div");
 	    content.setAttribute("class", "content");
@@ -77,6 +79,7 @@ async function fetchAuctions() {
 
   let auctionData = await fetch(urlForGettingAuction);
   let auctionInJsonFormat = await auctionData.json();
+  console.log(auctionInJsonFormat);
   return auctionInJsonFormat;
 }
 
