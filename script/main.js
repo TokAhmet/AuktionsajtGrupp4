@@ -46,16 +46,16 @@ async function populateListOfAuctionsInDiv() {
   });
 
   //Loopa genom alla Auktioner och lägg up de i varsin div
-  for (let i = 0; i < auktionResponse.length; i++) {
+  for (let auction of auktionResponse) {
 
     let content = document.createElement("div");
     content.setAttribute("class", "content");
 
-    var title = JSON.stringify(auktionResponse[i].Titel).replace(/"/g, "");
-    var description = JSON.stringify(auktionResponse[i].Beskrivning).replace(/"/g, "");
-    var startDate = JSON.stringify(auktionResponse[i].StartDatum).replace(/"/g, "");
-    var endDate = JSON.stringify(auktionResponse[i].SlutDatum).replace(/"/g, "");
-    var startingPrice = JSON.stringify(auktionResponse[i].Utropspris).replace(/"/g, "");
+    var title = JSON.stringify(auction.Titel).replace(/"/g, "");
+    var description = JSON.stringify(auction.Beskrivning).replace(/"/g, "");
+    var startDate = JSON.stringify(auction.StartDatum).replace(/"/g, "");
+    var endDate = JSON.stringify(auction.SlutDatum).replace(/"/g, "");
+    var startingPrice = JSON.stringify(auction.Utropspris).replace(/"/g, "");
     var status = getAuctionStatus(endDate);
 
     var text = "<h2>" + title + "</h2>" + "<p>" + description + "</p>" + "<p>" + startDate + "</p>" + "<p>" + endDate + "</p>" + "<p> Summa: " + startingPrice + "</p>" + "<p>Status: " + status + "</p>";
