@@ -159,6 +159,7 @@ function removeAuction(id) {
 
 //Skapa bud
 function createBud() {
+function addBid(bid, auction) {
   fetch("https://nackowskis.azurewebsites.net/api/bud/400/", {
     method: "POST",
     headers: {
@@ -166,9 +167,8 @@ function createBud() {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      BudID: 14,
-      Summa: 2000,
-      AuktionID: 5
+      AuktionID: auction,
+      Summa: bid
     })
   }).then(res => res.json()).then(res => console.log(res));
 }
