@@ -19,16 +19,9 @@ async function populateListOfAuctionsInDiv() {
       auktionDiv.className = "auktion-container";
       for (let value of result) {
         let inputDiv = document.createElement("div");
-        let newDiv = document.createElement("div");
-        newDiv.setAttribute("class", "newDiv");
 
-        let budInput = document.createElement("input");
-        budInput.setAttribute("type", "text");
-
-        let budButton = document.createElement("input");
-        budButton.setAttribute("type", "button");
-        budButton.setAttribute("value", "Bid");
-        budButton.setAttribute("class", "budButton");
+        let content = document.createElement("div");
+        content.setAttribute("class", "newDiv");
 
         var title = JSON.stringify(value.Titel).replace(/"/g, "");
         var description = JSON.stringify(value.Beskrivning).replace(/"/g, "");
@@ -38,12 +31,9 @@ async function populateListOfAuctionsInDiv() {
 
         var text = "<h2>" + title + "</h2>" + "<p>" + description + "</p>" + "<p>" + startDate + "</p>" + "<p>" + endDate + "</p>" + "<p> Summa: " + startingPrice + "</p>" + "<p>Status: " + status + "</p>";
 
-        newDiv.innerHTML = text;
+        content.innerHTML = text;
 
-        inputDiv.appendChild(budInput);
-        inputDiv.appendChild(budButton);
-        newDiv.appendChild(inputDiv);
-        auktionDiv.appendChild(newDiv);
+        auktionDiv.appendChild(content);
       }
 
     } else if(searchInput === "") {
@@ -59,17 +49,8 @@ async function populateListOfAuctionsInDiv() {
   //Loopa genom alla Auktioner och lägg up de i varsin div
   for (let i = 0; i < auktionResponse.length; i++) {
 
-    let inputDiv = document.createElement("div");
-    let newDiv = document.createElement("div");
-    newDiv.setAttribute("class", "newDiv");
-
-    let budInput = document.createElement("input");
-    budInput.setAttribute("type", "text");
-
-    let budButton = document.createElement("input");
-    budButton.setAttribute("type", "button");
-    budButton.setAttribute("value", "Bid");
-    budButton.setAttribute("class", "budButton");
+    let content = document.createElement("div");
+    content.setAttribute("class", "content");
 
     var title = JSON.stringify(auktionResponse[i].Titel).replace(/"/g, "");
     var description = JSON.stringify(auktionResponse[i].Beskrivning).replace(/"/g, "");
@@ -80,12 +61,9 @@ async function populateListOfAuctionsInDiv() {
 
     var text = "<h2>" + title + "</h2>" + "<p>" + description + "</p>" + "<p>" + startDate + "</p>" + "<p>" + endDate + "</p>" + "<p> Summa: " + startingPrice + "</p>" + "<p>Status: " + status + "</p>";
 
-    newDiv.innerHTML = text;
+    content.innerHTML = text;
 
-    inputDiv.appendChild(budInput);
-    inputDiv.appendChild(budButton);
-    newDiv.appendChild(inputDiv);
-    auktionDiv.appendChild(newDiv);
+    auktionDiv.appendChild(content);
 
   }
 }
@@ -158,7 +136,6 @@ function removeAuction(id) {
 }
 
 //Skapa bud
-function createBud() {
 function addBid(bid, auction) {
   fetch("https://nackowskis.azurewebsites.net/api/bud/400/", {
     method: "POST",
