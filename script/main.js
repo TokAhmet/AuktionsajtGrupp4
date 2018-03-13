@@ -57,6 +57,7 @@ async function fetchBidForAuction(auction){
 	return bidInJsonFormat;
 }
 
+
 function create() {
 	fetch("https://nackowskis.azurewebsites.net/api/auktion/400/", {
 		method: "POST",
@@ -91,8 +92,3 @@ function remove() {
 
 populateListOfAuctionsInDiv();
 populateBidsInDivofAuction(4);
-<<<<<<< HEAD
-
-
-=======
->>>>>>> master
