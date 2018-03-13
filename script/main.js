@@ -4,8 +4,6 @@ async function populateListOfAuctionsInDiv(){
 
 let auktionResponse = await fetchAuctions();
 
-
-
 for(let auktionContent of auktionResponse){
 
 var title = JSON.stringify(auktionContent.Titel).replace (/"/g,"");
@@ -57,7 +55,7 @@ async function fetchBidForAuction(auction){
 	return bidInJsonFormat;
 }
 
-function create() {
+function createAuction() {
 	fetch("https://nackowskis.azurewebsites.net/api/auktion/400/", {
 		method: "POST",
 		headers: {
@@ -77,10 +75,36 @@ function create() {
 	.then(res => console.log(res));
 }
 
-
-function remove() {
+function removeAuction(id) {
 	fetch("https://nackowskis.azurewebsites.net/api/auktion/400/" + id, {
 		method: "DELETE",
+		headers: {
+			"Accept": "application/json, text/plain, */*",
+			"Content-Type": "application/json"
+		},
+	}).then(res=>res.json())
+	.then(res => console.log(res));
+}
+
+function createBud(){
+	fetch("https://nackowskis.azurewebsites.net/api/bud/400/", {
+		method: "POST",
+		headers: {
+			"Accept": "application/json, text/plain, */*",
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			BudID: 3,
+			Summa: 1800,
+			AuktionID: 1
+		})
+	}).then(res=>res.json())
+	.then(res => console.log(res));
+}
+
+function removeBud(id){
+	fetch("https://nackowskis.azurewebsites.net/api/bud/400/" + id, {
+		method: "Delete",
 		headers: {
 			"Accept": "application/json, text/plain, */*",
 			"Content-Type": "application/json"
