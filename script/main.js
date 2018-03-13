@@ -1,94 +1,59 @@
 async function populateListOfAuctionsInDiv() {
 
-  // hämtar Auktion URL
-  let auktionResponse = await fetchAuctions();
-  console.log(auktionResponse);
+  let auctions = await fetchAuctions();
 
+  populateStartPageWithDataOfAuctions(auctions);
+
+  addAnEventListenerToSearchButton(auctions);
+
+}
+
+function addAnEventListenerToSearchButton(auctions){
   let auktionDiv = document.getElementById("auktion-container");
-  let searchButton = document.getElementById("searchButton");
-
-  //Sök Function inom Auktioner
-  searchButton.addEventListener("click", function() {
+	  let searchButton = document.getElementById("searchButton");
+	  searchButton.addEventListener("click", function() {
     let searchInput = document.getElementById("searchInput").value;
-    let result = auktionResponse.filter(value => value.Titel.includes(searchInput));
-    var status = getAuctionStatus(endDate);
-
-    auktionDiv.innerHTML = " ";
-
-    if (result.length != 0 && searchInput !== "") {
+    let filteredAuctions = auctions.filter(value => value.Titel.includes(searchInput));
+ 
+    if (filteredAuctions.length != 0) {
       auktionDiv.className = "auktion-container";
-      for (let value of result) {
-        let inputDiv = document.createElement("div");
-        let newDiv = document.createElement("div");
-        newDiv.setAttribute("class", "newDiv");
-
-        let budInput = document.createElement("input");
-        budInput.setAttribute("type", "text");
-
-        let budButton = document.createElement("input");
-        budButton.setAttribute("type", "button");
-        budButton.setAttribute("value", "Bid");
-        budButton.setAttribute("class", "budButton");
-
-        var title = JSON.stringify(value.Titel).replace(/"/g, "");
-        var description = JSON.stringify(value.Beskrivning).replace(/"/g, "");
-        var startDate = JSON.stringify(value.StartDatum).replace(/"/g, "");
-        var endDate = JSON.stringify(value.SlutDatum).replace(/"/g, "");
-        var startingPrice = JSON.stringify(value.Utropspris).replace(/"/g, "");
-
-        var text = "<h2>" + title + "</h2>" + "<p>" + description + "</p>" + "<p>" + startDate + "</p>" + "<p>" + endDate + "</p>" + "<p> Summa: " + startingPrice + "</p>" + "<p>Status: " + status + "</p>";
-
-        newDiv.innerHTML = text;
-
-        inputDiv.appendChild(budInput);
-        inputDiv.appendChild(budButton);
-        newDiv.appendChild(inputDiv);
-        auktionDiv.appendChild(newDiv);
-      }
-
-    } else if(searchInput === "") {
-      auktionDiv.className = "auktion-search";
-      auktionDiv.innerHTML = "Du måste skriva in något";
-    }
+      auktionDiv.innerHTML = " ";
+	  populateStartPageWithDataOfAuctions(filteredAuctions);
+    } 
     else {
       auktionDiv.className = "auktion-search";
       auktionDiv.innerHTML = "Inga hittade matchningar";
     }
   });
+}
 
-  //Loopa genom alla Auktioner och lägg up de i varsin div
-  for (let i = 0; i < auktionResponse.length; i++) {
 
-    let inputDiv = document.createElement("div");
-    let newDiv = document.createElement("div");
-    newDiv.setAttribute("class", "newDiv");
+function populateStartPageWithDataOfAuctions(auctions){
+	let auktionDiv = document.getElementById("auktion-container");
+	for (let auction of auctions) {
 
-    let budInput = document.createElement("input");
-    budInput.setAttribute("type", "text");
+	    let content = document.createElement("div");
+	    content.setAttribute("class", "content");
 
-    let budButton = document.createElement("input");
-    budButton.setAttribute("type", "button");
-    budButton.setAttribute("value", "Bid");
-    budButton.setAttribute("class", "budButton");
+	    var title = JSON.stringify(auction.Titel).replace(/"/g, "");
+	    var description = JSON.stringify(auction.Beskrivning).replace(/"/g, "");
+	    var startDate = JSON.stringify(auction.StartDatum).replace(/"/g, "");
+	    var endDate = JSON.stringify(auction.SlutDatum).replace(/"/g, "");
+	    var startingPrice = JSON.stringify(auction.Utropspris).replace(/"/g, "");
+	    var status = getAuctionStatus(endDate);
 
-    var title = JSON.stringify(auktionResponse[i].Titel).replace(/"/g, "");
-    var description = JSON.stringify(auktionResponse[i].Beskrivning).replace(/"/g, "");
-    var startDate = JSON.stringify(auktionResponse[i].StartDatum).replace(/"/g, "");
-    var endDate = JSON.stringify(auktionResponse[i].SlutDatum).replace(/"/g, "");
-    var startingPrice = JSON.stringify(auktionResponse[i].Utropspris).replace(/"/g, "");
-    var status = getAuctionStatus(endDate);
+	    var text = "<h2>" + title + "</h2>" + "<p>" + description + "</p>" + "<p>" + startDate + "</p>" + "<p>" + endDate + "</p>" + "<p> Summa: " + startingPrice + "</p>" + "<p>Status: " + status + "</p>";
 
-    var text = "<h2>" + title + "</h2>" + "<p>" + description + "</p>" + "<p>" + startDate + "</p>" + "<p>" + endDate + "</p>" + "<p> Summa: " + startingPrice + "</p>" + "<p>Status: " + status + "</p>";
+	    content.innerHTML = text;
 
-    newDiv.innerHTML = text;
-
-    inputDiv.appendChild(budInput);
-    inputDiv.appendChild(budButton);
-    newDiv.appendChild(inputDiv);
-    auktionDiv.appendChild(newDiv);
+	    auktionDiv.appendChild(content);
 
   }
+
 }
+
+
+
 
 // Kolla om datum stämmer med Auktionens
 function getAuctionStatus(endDate) {
@@ -114,6 +79,7 @@ async function fetchAuctions() {
 
   let auctionData = await fetch(urlForGettingAuction);
   let auctionInJsonFormat = await auctionData.json();
+  console.log(auctionInJsonFormat);
   return auctionInJsonFormat;
 }
 
@@ -158,7 +124,7 @@ function removeAuction(id) {
 }
 
 //Skapa bud
-function createBud() {
+function addBid(bid, auction) {
   fetch("https://nackowskis.azurewebsites.net/api/bud/400/", {
     method: "POST",
     headers: {
@@ -166,9 +132,8 @@ function createBud() {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      BudID: 14,
-      Summa: 2000,
-      AuktionID: 5
+      AuktionID: auction,
+      Summa: bid
     })
   }).then(res => res.json()).then(res => console.log(res));
 }
@@ -185,4 +150,4 @@ function removeBud(id) {
 }
 
 populateListOfAuctionsInDiv();
-populateBidsInDivofAuction(5);
+

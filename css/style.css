@@ -93,7 +93,7 @@ ul {
   flex: 1;
 }
 
-.newDiv{
+.content{
   background-color: #99b3ff;
   width: 45%;
   text-align: center;
@@ -105,7 +105,7 @@ ul {
   border-radius: 10px;
 }
 
-.newDiv h2{
+.content h2{
   font-size: 26px;
   border-bottom: 6px solid black;
   margin: 0 1rem;
