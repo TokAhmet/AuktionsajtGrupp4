@@ -1,31 +1,3 @@
-
- 
-
-async function populateListOfAuctionsInDiv(){
-
-let auktionResponse = await fetchAuctions();
-
-
-
-for(let auktionContent of auktionResponse){
-
-var title = JSON.stringify(auktionContent.Titel).replace (/"/g,"");
-var description = JSON.stringify(auktionContent.Beskrivning).replace (/"/g,"");
-var startDate = JSON.stringify(auktionContent.StartDatum).replace (/"/g,"");
-var endDate = JSON.stringify(auktionContent.SlutDatum).replace (/"/g,"");
-var startingPrice = JSON.stringify(auktionContent.Utropspris).replace (/"/g,"");
-
-var status = getAuctionStatus(endDate);
-
-var auction = title + " - " + description + " - " + startDate + " - " + endDate + " - " + startingPrice;
-
-document.getElementById("auktion1").innerHTML += auction + " - " + status + "<br />" ;
-document.getElementById("auktion2").innerHTML += auction + " - " + status + "<br />" ;
-document.getElementById("auktion3").innerHTML += auction + " - " + status + "<br />" ;
-document.getElementById("auktion4").innerHTML += auction + " - " + status + "<br />" ;
-document.getElementById("auktion5").innerHTML += auction + " - " + status + "<br />" ;
-}
-
 async function populateListOfAuctionsInDiv() {
 
   let auktionResponse = await fetchAuctions();
@@ -66,6 +38,23 @@ async function populateListOfAuctionsInDiv() {
     auktionDiv.appendChild(newDiv);
 
 	}
+  // for (let auktionContent of auktionResponse) {
+  //
+  //   var title = JSON.stringify(auktionContent.Titel).replace(/"/g, "");
+  //   var description = JSON.stringify(auktionContent.Beskrivning).replace(/"/g, "");
+  //   var startDate = JSON.stringify(auktionContent.StartDatum).replace(/"/g, "");
+  //   var endDate = JSON.stringify(auktionContent.SlutDatum).replace(/"/g, "");
+  //   var startingPrice = JSON.stringify(auktionContent.Utropspris).replace(/"/g, "");
+  //
+  //
+  //   var auction = title + "<br />" + description + "<br />" + startDate + "<br />" + endDate + "<br /> Summa: " + startingPrice;
+  //
+  //   document.getElementById("auktion1").innerHTML += auction + "<br />" + status + "<br />";
+  //   document.getElementById("auktion2").innerHTML += auction + "<br />" + status + "<br />";
+  //   document.getElementById("auktion3").innerHTML += auction + "<br />" + status + "<br />";
+  //   document.getElementById("auktion4").innerHTML += auction + "<br />" + status + "<br />";
+  //   document.getElementById("auktion5").innerHTML += auction + "<br />" + status + "<br />";
+  // }
 
 }
 
@@ -104,40 +93,6 @@ async function fetchBidForAuction(auction) {
 
   return bidInJsonFormat;
 }
-
-
-function create() {
-	fetch("https://nackowskis.azurewebsites.net/api/auktion/400/", {
-		method: "POST",
-		headers: {
-			"Accept": "application/json, text/plain, */*",
-			"Content-Type": "application/json"
-		},
-		body: JSON.stringify({
-			AuktionID: 75,
-			Beskrivning: "Ahmet",
-			Gruppkod: 400,
-			SlutDatum: "2018-03-31T00:00:00",
-			StartDatum: "2018-03-10T00:00:00",
-			Titel: "Ahmet är bäst",
-			Utropspris: 1500
-		})
-	}).then(res=>res.json())
-	.then(res => console.log(res));
-}
-
-
-function remove() {
-	fetch("https://nackowskis.azurewebsites.net/api/auktion/400/" + id, {
-		method: "DELETE",
-		headers: {
-			"Accept": "application/json, text/plain, */*",
-			"Content-Type": "application/json"
-		},
-	}).then(res=>res.json())
-	.then(res => console.log(res));
-}
-
 
 function createAuction() {
   fetch("https://nackowskis.azurewebsites.net/api/auktion/400/", {
