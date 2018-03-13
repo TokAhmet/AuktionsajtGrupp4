@@ -18,7 +18,6 @@ async function populateListOfAuctionsInDiv() {
     if (result.length != 0 && searchInput !== "") {
       auktionDiv.className = "auktion-container";
       for (let value of result) {
-        let inputDiv = document.createElement("div");
 
         let content = document.createElement("div");
         content.setAttribute("class", "newDiv");
