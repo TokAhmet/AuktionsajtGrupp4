@@ -89,76 +89,69 @@ function addEventListenerForShowingBid(auctionID, showBidsButton) {
       bidsText += "<br>" + JSON.stringify(bid.Summa) + "kr";
     }
 
-    let placeBidButton = "<button class='placeBidButton' id='buttonName'>Place bid</button>";
-
     /* auktionDiv.appendChild(input); */
     auktionDiv.innerHTML = " ";
-        auktionDiv.className = "auktion-container2";
+    auktionDiv.className = "auktion-container2";
     auktionDiv.innerHTML = "<h3>Here are all the bids for auction" + auctionID + ":</h3>" + bidsText;
 
-	var placeBidInput = document.createElement("input");
-                placeBidInput.type = "text";
-                placeBidInput.id = "placebid";
-                document.getElementById("bid-form").appendChild(placeBidInput);
+    var placeBidInput = document.createElement("input");
+    placeBidInput.type = "text";
+    placeBidInput.id = "placebid";
+    document.getElementById("bid-form").appendChild(placeBidInput);
 
-
-    var bidButton = document.createElement("bidButton");        // Create a <button> element
-	var bidButtonText = document.createTextNode("Add bid");       // Create a text node
-	bidButton.class = "placeBidButton";
-	bidButton.appendChild(bidButtonText);                                // Append the text to <button>
-	document.getElementById("bid-form").appendChild(bidButton);
-	addBidButtonEventListener(bidButton, auctionID, placeBidInput);
-});
-
+    var bidButton = document.createElement("Button"); // Create a <button> element
+    var bidButtonText = document.createTextNode("Add bid"); // Create a text node
+    bidButton.className = "bidButton";
+    bidButton.appendChild(bidButtonText); // Append the text to <button>
+    document.getElementById("bid-form").appendChild(bidButton);
+    addBidButtonEventListener(bidButton, auctionID, placeBidInput);
+  });
 
 }
 
-function addBidButtonEventListener(bidButton, auctionID, placeBidInput){
-    bidButton.addEventListener("click", async function() {
+function addBidButtonEventListener(bidButton, auctionID, placeBidInput) {
+  bidButton.addEventListener("click", async function() {
 
-    	  let auktionDiv2 = document.getElementById("auktion-container");
+    let auktionDiv = document.getElementById("auktion-container");
 
-      var bidsInJSONFormat = await fetchBidForAuction(auctionID);
+    var bidsInJSONFormat = await fetchBidForAuction(auctionID);
 
-      bidsText = "";
-      for (let bid of bidsInJSONFormat) {
+    bidsText = "";
+    for (let bid of bidsInJSONFormat) {
 
-      	bidsText += "<br>" + JSON.stringify(bid.Summa);
-      }
+      bidsText += "<br>" + JSON.stringify(bid.Summa);
+    }
 
+    let bidValue = document.getElementById("placebid").value;
 
-      let bidValue = document.getElementById("placebid").value;
+    var newbidsText = bidsText.replace(/<br>/g, ',');
 
-      var newbidsText = bidsText.replace(/<br>/g, ',');
+    let highestBid = 0;
 
-      let highestBid = 0;
+    if (bidsInJSONFormat.length > 0) {
 
-      if(bidsInJSONFormat.length > 0){
+      highestBid = parseInt(JSON.stringify(bidsInJSONFormat.reduce(
+        (a, b) => a.Summa > b.Summa
+        ? a
+        : b).Summa));
+    }
+    let sortedBid = bidsInJSONFormat.sort((a, b) => a.Summa < b.Summa);
 
-	      highestBid = parseInt(JSON.stringify(bidsInJSONFormat.reduce(
-	        (a, b) => a.Summa > b.Summa
-	        ? a
-	        : b).Summa));
-	  }
-	      let sortedBid = bidsInJSONFormat.sort((a, b) => a.Summa < b.Summa);
+    console.log(sortedBid);
 
-	      console.log(sortedBid);
+    if (bidValue > highestBid) {
 
-	      if (bidValue > highestBid) {
+      addBid(bidValue, auctionID);
+      auktionDiv.innerHTML = "Here are all the bids for auction " + auctionID + ":" + bidsText + "<br>" + "Your bid is" + " " + bidValue;
+    } else {
+      auktionDiv.innerHTML = "Here are all the bids for auction " + auctionID + ":" + "<br>" + "Your bid" + " " + bidValue + " " + "is lower than the highest bid which is " + highestBid;
+    }
 
-	        addBid(bidValue, auctionID);
-	        auktionDiv2.innerHTML = "Here are all the bids for auction " + auctionID + ":" + bidsText + "<br>" + "Your bid is" + " " + bidValue;
-	      } else {
-	        auktionDiv2.innerHTML = "Here are all the bids for auction " + auctionID + ":" + "<br>" + "Your bid" + " " + bidValue + " " + "is lower than the highest bid which is " + highestBid;	
-	      }
-	      document.getElementById("placebid").value = "";
-  	  
-    });
+    document.getElementById("placebid").value = "";
 
-
+  });
 
 }
-
 
 function populateStartPageWithDataOfAuctions(auctions) {
   let auktionDiv = document.getElementById("auktion-container");
@@ -179,9 +172,7 @@ function populateStartPageWithDataOfAuctions(auctions) {
     var buttonName = "showBidsFor_" + auctionID;
     var button = "<button class='searchButton' id=" + buttonName + ">Show bids</button>";
 
-    var text = "<h2>" + title + "</h2>" + button + "<p>" + description + "</p>" + "<p><span class='font-bold'>StartDatum:</span> " + startDate + "</p>" +
-    "<p><span class='font-bold'>SlutDatum:</span> " + endDate + "</p>" + "<p><span class='font-bold'>Summa:</span> " + startingPrice + "kr</p>" + 
-    "<p><span class='font-bold'>Status:</span> " + status + "</p>";
+    var text = "<h2>" + title + "</h2>" + button + "<p>" + description + "</p>" + "<p><span class='font-bold'>StartDatum:</span> " + startDate + "</p>" + "<p><span class='font-bold'>SlutDatum:</span> " + endDate + "</p>" + "<p><span class='font-bold'>Summa:</span> " + startingPrice + "kr</p>" + "<p><span class='font-bold'>Status:</span> " + status + "</p>";
 
     content.innerHTML = text;
 
