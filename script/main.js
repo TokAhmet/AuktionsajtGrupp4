@@ -79,34 +79,26 @@ function addAnEventListenerToSearchButton(auctions) {
 function addEventListenerForShowingBid(auctionID, showBidsButton) {
 
   let auktionDiv = document.getElementById("auktion-container");
-  let auktionDiv2 = document.getElementById("auktion-container2");
   let showBidsButtonRef = document.getElementById(showBidsButton);
   showBidsButtonRef.addEventListener("click", async function() {
     var bidsInJSONFormat = await fetchBidForAuction(auctionID);
-    var bidsText = "";
     bidsInJSONFormat.sort((a, b) => a.Summa < b.Summa);
+    var bidsText = "";
 
     for (let bid of bidsInJSONFormat) {
-      bidsText += "<br>" + JSON.stringify(bid.Summa);
+      bidsText += "<br>" + JSON.stringify(bid.Summa) + "kr";
     }
 
-    let input = document.createElement("input");
-    input.setAttribute("text", "text", "id", "setBidInput",);
+    let placeBidButton = "<button class='placeBidButton' id='buttonName'>Place bid</button>";
+    let placeBidInput = "<input type='text' + id='placebid'+ placeholder='Place your bid'>";
 
-    /* let inputValue = document.getElementById("input").value; */
-
-    let placeBidButton = "<button class='placeBidButton' id=" + "buttonName" + ">Place bid</button>";
-    let placeBidInput = "<input type='text' + id='placebid'+ </input>";
-
-    /* auktionDiv.appendChild(input); */
+    auktionDiv.className = "auktion-container2";
     auktionDiv.innerHTML = " ";
-    auktionDiv2.innerHTML = "Here are all the bids for auction " + auctionID + ":" + bidsText + placeBidInput + placeBidButton;
+    auktionDiv.innerHTML = "<h3>Here are all the bids for auction" + auctionID + ":</h3>" + bidsText + placeBidInput + placeBidButton;
 
     buttonName.addEventListener("click", function() {
 
       let bidValue = document.getElementById("placebid").value;
-
-      var newbidsText = bidsText.replace(/<br>/g, ',');
 
       let highestBid = bidsInJSONFormat.reduce(
         (a, b) => a.Summa > b.Summa
@@ -120,17 +112,14 @@ function addEventListenerForShowingBid(auctionID, showBidsButton) {
       if (bidValue > highestBid.Summa) {
 
         addBid(bidValue, auctionID);
-        auktionDiv2.innerHTML = "Here are all the bids for auction " + auctionID + ":" + bidsText + "<br>" + "Your bid is" + " " + bidValue + placeBidInput + placeBidButton;
+        auktionDiv.innerHTML = "Here are all the bids for auction " + auctionID + ":" + bidsText + "<br>" + "Your bid is" + " " + bidValue + placeBidInput + placeBidButton;
       } else {
 
-        auktionDiv2.innerHTML = "Here are all the bids for auction " + auctionID + ":" + placeBidInput + placeBidButton + "<br>" + "Your bid" + " " + bidValue + " " + "is lower than the highest bid";
+        auktionDiv.innerHTML = "Here are all the bids for auction " + auctionID + ":" + placeBidInput + placeBidButton + "<br>" + "Your bid" + " " + bidValue + " " + "is lower than the highest bid";
 
       }
-
     });
-
   });
-
 }
 
 function populateStartPageWithDataOfAuctions(auctions) {
@@ -152,7 +141,9 @@ function populateStartPageWithDataOfAuctions(auctions) {
     var buttonName = "showBidsFor_" + auctionID;
     var button = "<button class='searchButton' id=" + buttonName + ">Show bids</button>";
 
-    var text = "<h2>" + title + "</h2>" + button + "<p>" + description + "</p>" + "<p>" + startDate + "</p>" + "<p>" + endDate + "</p>" + "<p> Summa: " + startingPrice + "</p>" + "<p>Status: " + status + "</p>";
+    var text = "<h2>" + title + "</h2>" + button + "<p>" + description + "</p>" + "<p><span class='font-bold'>StartDatum:</span> " + startDate + "</p>" +
+    "<p><span class='font-bold'>SlutDatum:</span> " + endDate + "</p>" + "<p><span class='font-bold'>Summa:</span> " + startingPrice + "kr</p>" + 
+    "<p><span class='font-bold'>Status:</span> " + status + "</p>";
 
     content.innerHTML = text;
 
@@ -172,13 +163,6 @@ function getAuctionStatus(endDate) {
   else
     status = "Stängd";
   return status;
-}
-
-async function populateBidsInDivofAuction(auction) {
-
-  let budResponse = await fetchBidForAuction(auction);
-  document.getElementById("auction").innerHTML = "Bids for auction" + auction + ": " + JSON.stringify(budResponse) + "<br />";
-  console.log(budResponse);
 }
 
 async function fetchAuctions() {
