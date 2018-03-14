@@ -8,11 +8,17 @@ body {
   line-height: 1.5;
   margin: 0;
   background-color: #9999ff;
+  height: 100vh;
 }
 
 ul {
   margin: 0;
   padding: 0;
+}
+
+a{
+  text-decoration: none;
+  border: 0px;
 }
 
 .header-container {
@@ -62,6 +68,14 @@ ul {
   background-color: silver;
   border: none;
   cursor: pointer;
+  border-right: 1px solid black;
+}
+
+.addAuktionButton{
+  background-color: gold;
+  border: none;
+  cursor: pointer;
+  padding: 18px;
 }
 
 .auktion-search{
@@ -83,6 +97,18 @@ ul {
   max-width: 90%;
   margin: 2rem auto;
   text-align: center;
+}
+
+.auktion-container2 {
+  display: flex;
+  flex-flow: row wrap;
+  max-width: 90%;
+  margin: 2rem auto;
+  text-align: center;
+
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .auktion-wrapper div {
@@ -118,4 +144,69 @@ ul {
   border: none;
   cursor: pointer;
 
+}
+
+.auktion-container input {
+  width: 20%;
+  height: 10%;
+}
+
+.contact {
+  display: flex;
+
+
+}
+.contact form {
+  background-color: #99b3ff;
+  border-radius: 10px;
+  box-shadow: 0 1px 20px 0 #000;
+  color: #000;
+  min-width: 40vw;
+  margin: 5rem auto;
+  font-weight: bold;
+}
+
+.contact h1 {
+  font-size: 2rem;
+  text-align: center;
+  text-decoration: underline;
+  letter-spacing: 1px;
+  padding: 0.5rem;
+}
+
+.contact a {
+  color: #000;
+}
+
+.li-forms {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+}
+
+.li-forms button {
+  box-shadow: 0 4px #666;
+  background-color: #fff;
+  border: 0;
+  border-radius: 20px;
+  font-weight: bold;
+  width: 50%;
+  margin: auto;
+}
+
+.li-forms button:hover {
+  cursor: pointer;
+}
+
+.li-forms button:active {
+  box-shadow: 0 3px #666;
+  transform: translateY(2px);
+}
+
+.li-forms input, .li-forms button, .li-forms label {
+  padding: 0.6rem;
+}
+
+.li-forms input:focus, .li-forms textarea:focus {
+  outline: 2px solid #000;
 }
