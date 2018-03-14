@@ -30,7 +30,16 @@ function addAnEventListenerToSearchButton(auctions){
 
 function populateStartPageWithDataOfAuctions(auctions){
 	let auktionDiv = document.getElementById("auktion-container");
+
+	//Change to StartDatum for opposite sort order
+	function custom_sort(a, b) {
+	    return new Date(a.SlutDatum).getTime() - new Date(b.SlutDatum).getTime();
+	}
+	auctions.sort(custom_sort);
+
 	for (let auction of auctions) {
+
+
 
 	    let content = document.createElement("div");
 	    content.setAttribute("class", "content");
