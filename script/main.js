@@ -10,77 +10,80 @@ async function populateListOfAuctionsInDiv() {
 
 }
 
-function addAnEventListenerToOrderByEndDateButton(auctions){
-    let auktionDiv = document.getElementById("auktion-container");
-    let endDateButton = document.getElementById("endDateButton");
-    endDateButton.addEventListener("click", function() {
-    let searchInput = document.getElementById("searchInput").value;
-    let filteredAuctions = auctions.filter(value => value.Titel.includes(searchInput));
- 
- 	//Change to SlutDatum for opposite sort order
-	function custom_sort(a, b) {
-	    return new Date(a.SlutDatum).getTime() - new Date(b.SlutDatum).getTime();
-	}
-	filteredAuctions.sort(custom_sort);
-
-    if (filteredAuctions.length != 0) {
-      auktionDiv.className = "auktion-container";
-      auktionDiv.innerHTML = " ";
-	  populateStartPageWithDataOfAuctions(filteredAuctions);
-
-    } 
-    else {
-      auktionDiv.className = "auktion-search";
-      auktionDiv.innerHTML = "Inga hittade matchningar";
-    }
-  });
-}
-
-
-function addAnEventListenerToOrderByStartDateButton(auctions){
-    let auktionDiv = document.getElementById("auktion-container");
-    let startDateButton = document.getElementById("startDateButton");
-    startDateButton.addEventListener("click", function() {
-    let searchInput = document.getElementById("searchInput").value;
-    let filteredAuctions = auctions.filter(value => value.Titel.includes(searchInput));
- 
- 	//Change to StartDatum for opposite sort order
-	function custom_sort(a, b) {
-	    return new Date(a.StartDatum).getTime() - new Date(b.StartDatum).getTime();
-	}
-	filteredAuctions.sort(custom_sort);
-
-    if (filteredAuctions.length != 0) {
-      auktionDiv.className = "auktion-container";
-      auktionDiv.innerHTML = " ";
-	  populateStartPageWithDataOfAuctions(filteredAuctions);
-    } 
-    else {
-      auktionDiv.className = "auktion-search";
-      auktionDiv.innerHTML = "Inga hittade matchningar";
-    }
-  });
-}
-
-function addAnEventListenerToSearchButton(auctions){
+function addAnEventListenerToOrderByEndDateButton(auctions) {
   let auktionDiv = document.getElementById("auktion-container");
-	  let searchButton = document.getElementById("searchButton");
-	  searchButton.addEventListener("click", function() {
+  let endDateButton = document.getElementById("endDateButton");
+  endDateButton.addEventListener("click", function() {
     let searchInput = document.getElementById("searchInput").value;
     let filteredAuctions = auctions.filter(value => value.Titel.includes(searchInput));
- 
+
+    //Change to SlutDatum for opposite sort order
+    function custom_sort(a, b) {
+      return new Date(a.SlutDatum).getTime() - new Date(b.SlutDatum).getTime();
+    }
+    filteredAuctions.sort(custom_sort);
+
     if (filteredAuctions.length != 0) {
       auktionDiv.className = "auktion-container";
       auktionDiv.innerHTML = " ";
+<<<<<<< HEAD
 	  populateStartPageWithDataOfAuctions(filteredAuctions);
+
     } 
     else {
+=======
+      populateStartPageWithDataOfAuctions(filteredAuctions);
+    } else {
+>>>>>>> master
       auktionDiv.className = "auktion-search";
       auktionDiv.innerHTML = "Inga hittade matchningar";
     }
   });
 }
 
+function addAnEventListenerToOrderByStartDateButton(auctions) {
+  let auktionDiv = document.getElementById("auktion-container");
+  let startDateButton = document.getElementById("startDateButton");
+  startDateButton.addEventListener("click", function() {
+    let searchInput = document.getElementById("searchInput").value;
+    let filteredAuctions = auctions.filter(value => value.Titel.includes(searchInput));
+
+    //Change to StartDatum for opposite sort order
+    function custom_sort(a, b) {
+      return new Date(a.StartDatum).getTime() - new Date(b.StartDatum).getTime();
+    }
+    filteredAuctions.sort(custom_sort);
+
+    if (filteredAuctions.length != 0) {
+      auktionDiv.className = "auktion-container";
+      auktionDiv.innerHTML = " ";
+      populateStartPageWithDataOfAuctions(filteredAuctions);
+    } else {
+      auktionDiv.className = "auktion-search";
+      auktionDiv.innerHTML = "Inga hittade matchningar";
+    }
+  });
+}
+
+function addAnEventListenerToSearchButton(auctions) {
+  let auktionDiv = document.getElementById("auktion-container");
+  let searchButton = document.getElementById("searchButton");
+  searchButton.addEventListener("click", function() {
+    let searchInput = document.getElementById("searchInput").value;
+    let filteredAuctions = auctions.filter(value => value.Titel.includes(searchInput));
+
+    if (filteredAuctions.length != 0) {
+      auktionDiv.className = "auktion-container";
+      auktionDiv.innerHTML = " ";
+      populateStartPageWithDataOfAuctions(filteredAuctions);
+    } else {
+      auktionDiv.className = "auktion-search";
+      auktionDiv.innerHTML = "Inga hittade matchningar";
+    }
+  });
+}
+
+<<<<<<< HEAD
  function addEventListenerForShowingBid(auctionID, showBidsButton){
 
  	 let auktionDiv = document.getElementById("auktion-container");
@@ -174,48 +177,100 @@ function addAnEventListenerToSearchButton(auctions){
       // add a button for adding bid
       //add an event listener for this
       //Similar to adding of eventlistener in populateStartPageWithDataOfAuctions
+=======
+function addEventListenerForShowingBid(auctionID, showBidsButton) {
+>>>>>>> master
 
+  let auktionDiv = document.getElementById("auktion-container");
+  let auktionDiv2 = document.getElementById("auktion-container2");
+  let showBidsButtonRef = document.getElementById(showBidsButton);
+  showBidsButtonRef.addEventListener("click", async function() {
+    var bidsInJSONFormat = await fetchBidForAuction(auctionID);
+    var bidsText = "";
+    bidsInJSONFormat.sort((a, b) => a.Summa < b.Summa);
 
+    for (let bid of bidsInJSONFormat) {
+      bidsText += "<br>" + JSON.stringify(bid.Summa);
+    }
+
+<<<<<<< HEAD
   });
 
 };
+=======
+    let input = document.createElement("input");
+    input.setAttribute("text", "text", "id", "setBidInput",);
+>>>>>>> master
 
-function populateStartPageWithDataOfAuctions(auctions){
-	let auktionDiv = document.getElementById("auktion-container");
+    /* let inputValue = document.getElementById("input").value; */
 
+    let placeBidButton = "<button class='placeBidButton' id=" + "buttonName" + ">Place bid</button>";
+    let placeBidInput = "<input type='text' + id='placebid'+ </input>";
 
+    /* auktionDiv.appendChild(input); */
+    auktionDiv.innerHTML = " ";
+    auktionDiv2.innerHTML = "Here are all the bids for auction " + auctionID + ":" + bidsText + placeBidInput + placeBidButton;
 
-	for (let auction of auctions) {
+    buttonName.addEventListener("click", function() {
 
+      let bidValue = document.getElementById("placebid").value;
 
+      var newbidsText = bidsText.replace(/<br>/g, ',');
 
-	    let content = document.createElement("div");
-	    content.setAttribute("class", "content");
+      let highestBid = bidsInJSONFormat.reduce(
+        (a, b) => a.Summa > b.Summa
+        ? a
+        : b);
 
-	    var title = JSON.stringify(auction.Titel).replace(/"/g, "");
-	    var description = JSON.stringify(auction.Beskrivning).replace(/"/g, "");
-	    var startDate = JSON.stringify(auction.StartDatum).replace(/"/g, "");
-	    var endDate = JSON.stringify(auction.SlutDatum).replace(/"/g, "");
-	    var startingPrice = JSON.stringify(auction.Utropspris).replace(/"/g, "");
-	    var status = getAuctionStatus(endDate);
-	    var auctionID = JSON.stringify(auction.AuktionID).replace(/"/g, ""); 
+      let sortedBid = bidsInJSONFormat.sort((a, b) => a.Summa < b.Summa);
 
-	    var buttonName = 'showBidsFor_' + auctionID;
-	    var button = "<button class='searchButton' id=" + buttonName + ">Show bids</button>";
+      console.log(sortedBid);
 
-	    var text = "<h2>" + title + "</h2>" + button + "<p>" + description + "</p>" + "<p>" + startDate + "</p>" + "<p>" + endDate + "</p>" + "<p> Summa: " + startingPrice + "</p>" + "<p>Status: " + status + "</p>";
+      if (bidValue > highestBid.Summa) {
 
-	    content.innerHTML = text;
+        addBid(bidValue, auctionID);
+        auktionDiv2.innerHTML = "Here are all the bids for auction " + auctionID + ":" + bidsText + "<br>" + "Your bid is" + " " + bidValue + placeBidInput + placeBidButton;
+      } else {
 
-	    auktionDiv.appendChild(content);
-	    addEventListenerForShowingBid(auctionID, buttonName);
-  }
+        auktionDiv2.innerHTML = "Here are all the bids for auction " + auctionID + ":" + placeBidInput + placeBidButton + "<br>" + "Your bid" + " " + bidValue + " " + "is lower than the highest bid";
+
+      }
+
+    });
+
+  });
 
 
 }
 
+function populateStartPageWithDataOfAuctions(auctions) {
+  let auktionDiv = document.getElementById("auktion-container");
 
+  for (let auction of auctions) {
 
+    let content = document.createElement("div");
+    content.setAttribute("class", "content");
+
+    var title = JSON.stringify(auction.Titel).replace(/"/g, "");
+    var description = JSON.stringify(auction.Beskrivning).replace(/"/g, "");
+    var startDate = JSON.stringify(auction.StartDatum).replace(/"/g, "");
+    var endDate = JSON.stringify(auction.SlutDatum).replace(/"/g, "");
+    var startingPrice = JSON.stringify(auction.Utropspris).replace(/"/g, "");
+    var status = getAuctionStatus(endDate);
+    var auctionID = JSON.stringify(auction.AuktionID).replace(/"/g, "");
+
+    var buttonName = "showBidsFor_" + auctionID;
+    var button = "<button class='searchButton' id=" + buttonName + ">Show bids</button>";
+
+    var text = "<h2>" + title + "</h2>" + button + "<p>" + description + "</p>" + "<p>" + startDate + "</p>" + "<p>" + endDate + "</p>" + "<p> Summa: " + startingPrice + "</p>" + "<p>Status: " + status + "</p>";
+
+    content.innerHTML = text;
+
+    auktionDiv.appendChild(content);
+    addEventListenerForShowingBid(auctionID, buttonName);
+  }
+
+}
 
 // Kolla om datum stämmer med Auktionens
 function getAuctionStatus(endDate) {
@@ -294,10 +349,7 @@ function addBid(bid, auction) {
       "Accept": "application/json, text/plain, */*",
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      AuktionID: auction,
-      Summa: bid
-    })
+    body: JSON.stringify({AuktionID: auction, Summa: bid})
   }).then(res => res.json()).then(res => console.log(res));
 }
 
@@ -312,5 +364,8 @@ function removeBud(id) {
   }).then(res => res.json()).then(res => console.log(res));
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 populateListOfAuctionsInDiv();

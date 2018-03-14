@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="text/javascript" src="script/main.js" defer></script>
+  <title>Nackowskis</title>
+</head>
+<body>
+  <header class="header-container">
+    <div class="header-wrapper">
+      <a href="index.html"><h1 class="main-name">Nackowskis</h1></a>
+      <div class="search-content">
+        <input type="text" id="searchInput" placeholder="Search your auktion!" />
+        <button class="searchButton" id="searchButton">Search</button>
+        <button class="searchButton" id="startDateButton">Sort by start date</button>
+        <button class="searchButton" id="endDateButton">Sort by end date</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="contact">
+    <form>
+      <ul>
+          <h1>Lägg till Auktion</h1>
+        <li class="li-forms">
+          <label for="namn">Titel</label>
+          <input type="text" name="titel" id="adminTitel">
+        </li>
+        <li class="li-forms">
+          <label for="telefon">StartDatum</label>
+          <input type="date" name="startDate" id="adminStartDate">
+        </li>
+        <li class="li-forms">
+          <label for="email">SlutDatum</label>
+          <input type="date" name="endDate" id="adminEndDate">
+        </li>
+        <li class="li-forms">
+          <label for="företag">Utropspris</label>
+          <input type="number" name="pris" id="adminPris">
+        </li>
+        <li class="li-forms">
+          <label for="beskrivning">Beskrivning</label>
+          <input type="text" name="titel" id="adminBeskrivning">
+        </li>
+        <li class="li-forms">
+          <button type="submit">Lägg till</button>
+        </li>
+      </ul>
+    </form>
+</body>
+</html>
