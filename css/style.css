@@ -127,6 +127,18 @@ a {
   height: 10%;
 }
 
+.bid-form {
+  display: flex;
+  flex-flow: row wrap;
+  max-width: 90%;
+  margin: 2rem auto;
+  text-align: center;
+
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 .auktion-wrapper div {
   display: flex;
   flex-basis: 70%;

@@ -82,7 +82,7 @@ function addEventListenerForShowingBid(auctionID, showBidsButton) {
   let showBidsButtonRef = document.getElementById(showBidsButton);
   showBidsButtonRef.addEventListener("click", async function() {
     var bidsInJSONFormat = await fetchBidForAuction(auctionID);
-    bidsInJSONFormat.sort((a, b) => a.Summa < b.Summa);
+
     var bidsText = "";
 
     for (let bid of bidsInJSONFormat) {
@@ -90,37 +90,75 @@ function addEventListenerForShowingBid(auctionID, showBidsButton) {
     }
 
     let placeBidButton = "<button class='placeBidButton' id='buttonName'>Place bid</button>";
-    let placeBidInput = "<input type='text' + id='placebid'+ placeholder='Place your bid'>";
 
-    auktionDiv.className = "auktion-container2";
+    /* auktionDiv.appendChild(input); */
     auktionDiv.innerHTML = " ";
-    auktionDiv.innerHTML = "<h3>Here are all the bids for auction" + auctionID + ":</h3>" + bidsText + placeBidInput + placeBidButton;
+        auktionDiv.className = "auktion-container2";
+    auktionDiv.innerHTML = "<h3>Here are all the bids for auction" + auctionID + ":</h3>" + bidsText;
 
-    buttonName.addEventListener("click", function() {
+	var placeBidInput = document.createElement("input");
+                placeBidInput.type = "text";
+                placeBidInput.id = "placebid";
+                document.getElementById("bid-form").appendChild(placeBidInput);
+
+
+    var bidButton = document.createElement("bidButton");        // Create a <button> element
+	var bidButtonText = document.createTextNode("Add bid");       // Create a text node
+	bidButton.class = "placeBidButton";
+	bidButton.appendChild(bidButtonText);                                // Append the text to <button>
+	document.getElementById("bid-form").appendChild(bidButton);
+	addBidButtonEventListener(bidButton, auctionID, placeBidInput);
+});
+
+
+}
+
+function addBidButtonEventListener(bidButton, auctionID, placeBidInput){
+    bidButton.addEventListener("click", async function() {
+
+    	  let auktionDiv2 = document.getElementById("auktion-container");
+
+      var bidsInJSONFormat = await fetchBidForAuction(auctionID);
+
+      bidsText = "";
+      for (let bid of bidsInJSONFormat) {
+
+      	bidsText += "<br>" + JSON.stringify(bid.Summa);
+      }
+
 
       let bidValue = document.getElementById("placebid").value;
 
-      let highestBid = bidsInJSONFormat.reduce(
-        (a, b) => a.Summa > b.Summa
-        ? a
-        : b);
+      var newbidsText = bidsText.replace(/<br>/g, ',');
 
-      let sortedBid = bidsInJSONFormat.sort((a, b) => a.Summa < b.Summa);
+      let highestBid = 0;
 
-      console.log(sortedBid);
+      if(bidsInJSONFormat.length > 0){
 
-      if (bidValue > highestBid.Summa) {
+	      highestBid = parseInt(JSON.stringify(bidsInJSONFormat.reduce(
+	        (a, b) => a.Summa > b.Summa
+	        ? a
+	        : b).Summa));
+	  }
+	      let sortedBid = bidsInJSONFormat.sort((a, b) => a.Summa < b.Summa);
 
-        addBid(bidValue, auctionID);
-        auktionDiv.innerHTML = "Here are all the bids for auction " + auctionID + ":" + bidsText + "<br>" + "Your bid is" + " " + bidValue + placeBidInput + placeBidButton;
-      } else {
+	      console.log(sortedBid);
 
-        auktionDiv.innerHTML = "Here are all the bids for auction " + auctionID + ":" + placeBidInput + placeBidButton + "<br>" + "Your bid" + " " + bidValue + " " + "is lower than the highest bid";
+	      if (bidValue > highestBid) {
 
-      }
+	        addBid(bidValue, auctionID);
+	        auktionDiv2.innerHTML = "Here are all the bids for auction " + auctionID + ":" + bidsText + "<br>" + "Your bid is" + " " + bidValue;
+	      } else {
+	        auktionDiv2.innerHTML = "Here are all the bids for auction " + auctionID + ":" + "<br>" + "Your bid" + " " + bidValue + " " + "is lower than the highest bid which is " + highestBid;	
+	      }
+	      document.getElementById("placebid").value = "";
+  	  
     });
-  });
+
+
+
 }
+
 
 function populateStartPageWithDataOfAuctions(auctions) {
   let auktionDiv = document.getElementById("auktion-container");
