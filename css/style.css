@@ -23,7 +23,7 @@ a {
 }
 
 .font-bold{
-  font-weight: bold; 
+  font-weight: bold;
 }
 
 
@@ -121,10 +121,11 @@ a {
   animation: fadein 1s;
 }
 
-.auktion-container2 input {
+.bidButton {  
   margin: 1rem auto;
-  width: 20%;
+  width: 10%;
   height: 10%;
+  font-weight: bold;
 }
 
 .bid-form {
