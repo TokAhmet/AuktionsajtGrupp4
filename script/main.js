@@ -80,6 +80,20 @@ function addAnEventListenerToSearchButton(auctions){
   });
 }
 
+ function addEventListenerForShowingBid(auctionID, showBidsButton){
+	  let auktionDiv = document.getElementById("auktion-container");
+	  let showBidsButtonRef = document.getElementById(showBidsButton);
+	  showBidsButtonRef.addEventListener("click", async function() {
+	  var bidsInJSONFormat = await fetchBidForAuction(auctionID);
+	  var bids = JSON.stringify(bidsInJSONFormat);
+	  var bidsText = ""
+  	for (let bid of bids) {
+  		 bidsText += JSON.stringify(bid.Summa);
+	  	}
+      auktionDiv.innerHTML = "Here are all the bids" + bids;
+
+  });
+}
 
 function populateStartPageWithDataOfAuctions(auctions){
 	let auktionDiv = document.getElementById("auktion-container");
@@ -99,13 +113,17 @@ function populateStartPageWithDataOfAuctions(auctions){
 	    var endDate = JSON.stringify(auction.SlutDatum).replace(/"/g, "");
 	    var startingPrice = JSON.stringify(auction.Utropspris).replace(/"/g, "");
 	    var status = getAuctionStatus(endDate);
+	    var auctionID = JSON.stringify(auction.AuktionID).replace(/"/g, ""); 
 
-	    var text = "<h2>" + title + "</h2>" + "<p>" + description + "</p>" + "<p>" + startDate + "</p>" + "<p>" + endDate + "</p>" + "<p> Summa: " + startingPrice + "</p>" + "<p>Status: " + status + "</p>";
+	    var buttonName = 'showBidsFor_' + auctionID;
+	    var button = "<button class='searchButton' id=" + buttonName + ">Show bids</button>";
+
+	    var text = "<h2>" + title + "</h2>" + button + "<p>" + description + "</p>" + "<p>" + startDate + "</p>" + "<p>" + endDate + "</p>" + "<p> Summa: " + startingPrice + "</p>" + "<p>Status: " + status + "</p>";
 
 	    content.innerHTML = text;
 
 	    auktionDiv.appendChild(content);
-
+	    addEventListenerForShowingBid(auctionID, buttonName);
   }
 
 }
