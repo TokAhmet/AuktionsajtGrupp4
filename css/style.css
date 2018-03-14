@@ -83,6 +83,19 @@ ul {
   max-width: 90%;
   margin: 2rem auto;
   text-align: center;
+
+}
+
+.auktion-container2 {
+  display: flex;
+  flex-flow: row wrap;
+  max-width: 90%;
+  margin: 2rem auto;
+  text-align: center;
+
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .auktion-wrapper div {
@@ -119,3 +132,10 @@ ul {
   cursor: pointer;
 
 }
+
+.auktion-container input {
+  width: 20%;
+  height: 10%;
+}
+
+
