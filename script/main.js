@@ -85,12 +85,16 @@ function addAnEventListenerToSearchButton(auctions){
 	  let showBidsButtonRef = document.getElementById(showBidsButton);
 	  showBidsButtonRef.addEventListener("click", async function() {
 	  var bidsInJSONFormat = await fetchBidForAuction(auctionID);
-	  var bids = JSON.stringify(bidsInJSONFormat);
 	  var bidsText = ""
-  	for (let bid of bids) {
-  		 bidsText += JSON.stringify(bid.Summa);
+  	for (let bid of bidsInJSONFormat) {
+  		 bidsText += "<br>" + JSON.stringify(bid.Summa);
 	  	}
-      auktionDiv.innerHTML = "Here are all the bids" + bids;
+      auktionDiv.innerHTML = "Here are all the bids for auction " + auctionID  + ":" + bidsText;
+      // add an input for text
+      // add a button for adding bid
+      //add an event listener for this
+      //Similar to adding of eventlistener in populateStartPageWithDataOfAuctions
+
 
   });
 }
