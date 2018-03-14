@@ -4,8 +4,61 @@ async function populateListOfAuctionsInDiv() {
 
   populateStartPageWithDataOfAuctions(auctions);
 
+  addAnEventListenerToOrderByEndDateButton(auctions)
+  addAnEventListenerToOrderByStartDateButton(auctions);
   addAnEventListenerToSearchButton(auctions);
 
+}
+
+function addAnEventListenerToOrderByEndDateButton(auctions){
+    let auktionDiv = document.getElementById("auktion-container");
+    let endDateButton = document.getElementById("endDateButton");
+    endDateButton.addEventListener("click", function() {
+    let searchInput = document.getElementById("searchInput").value;
+    let filteredAuctions = auctions.filter(value => value.Titel.includes(searchInput));
+ 
+ 	//Change to SlutDatum for opposite sort order
+	function custom_sort(a, b) {
+	    return new Date(a.SlutDatum).getTime() - new Date(b.SlutDatum).getTime();
+	}
+	filteredAuctions.sort(custom_sort);
+
+    if (filteredAuctions.length != 0) {
+      auktionDiv.className = "auktion-container";
+      auktionDiv.innerHTML = " ";
+	  populateStartPageWithDataOfAuctions(filteredAuctions);
+    } 
+    else {
+      auktionDiv.className = "auktion-search";
+      auktionDiv.innerHTML = "Inga hittade matchningar";
+    }
+  });
+}
+
+
+function addAnEventListenerToOrderByStartDateButton(auctions){
+    let auktionDiv = document.getElementById("auktion-container");
+    let startDateButton = document.getElementById("startDateButton");
+    startDateButton.addEventListener("click", function() {
+    let searchInput = document.getElementById("searchInput").value;
+    let filteredAuctions = auctions.filter(value => value.Titel.includes(searchInput));
+ 
+ 	//Change to StartDatum for opposite sort order
+	function custom_sort(a, b) {
+	    return new Date(a.StartDatum).getTime() - new Date(b.StartDatum).getTime();
+	}
+	filteredAuctions.sort(custom_sort);
+
+    if (filteredAuctions.length != 0) {
+      auktionDiv.className = "auktion-container";
+      auktionDiv.innerHTML = " ";
+	  populateStartPageWithDataOfAuctions(filteredAuctions);
+    } 
+    else {
+      auktionDiv.className = "auktion-search";
+      auktionDiv.innerHTML = "Inga hittade matchningar";
+    }
+  });
 }
 
 function addAnEventListenerToSearchButton(auctions){
@@ -31,11 +84,7 @@ function addAnEventListenerToSearchButton(auctions){
 function populateStartPageWithDataOfAuctions(auctions){
 	let auktionDiv = document.getElementById("auktion-container");
 
-	//Change to StartDatum for opposite sort order
-	function custom_sort(a, b) {
-	    return new Date(a.SlutDatum).getTime() - new Date(b.SlutDatum).getTime();
-	}
-	auctions.sort(custom_sort);
+
 
 	for (let auction of auctions) {
 
