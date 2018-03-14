@@ -23,7 +23,7 @@ async function populateListOfAuctionsInDiv() {
     newDiv.innerHTML = test + "<br />" +  text;
     auktionDiv.appendChild(newDiv);
 	}
-  // for (let auktionContent of auktionResponse) {
+  // for(let auktionContent of auktionResponse) {
   //
   //   var title = JSON.stringify(auktionContent.Titel).replace(/"/g, "");
   //   var description = JSON.stringify(auktionContent.Beskrivning).replace(/"/g, "");
@@ -130,5 +130,47 @@ function removeBud(id) {
   }).then(res => res.json()).then(res => console.log(res));
 }
 
+
+
+
+
+
+
+async function searchFunction(){
+
+  let searchResultList = document.getElementById('searchResult');
+
+  let searchValue = document.getElementById('search').value;
+
+  let aktionAPI = await fetchAuctions("http://nackowskis.azurewebsites.net/api/Auktion/400");
+
+  let createPtag = document.createElement('p')
+
+  var search = aktionAPI.filter(name => name.Titel.includes(searchValue));
+
+  console.log(JSON.stringify(search));
+
+  let textNode = document.createTextNode(JSON.stringify(search));
+  
+  createPtag.appendChild(textNode);
+  searchResultList.appendChild(createPtag);
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+
 populateListOfAuctionsInDiv();
 populateBidsInDivofAuction(4);
+
+*/
