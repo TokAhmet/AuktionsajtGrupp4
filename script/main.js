@@ -7,6 +7,24 @@ async function populateListOfAuctionsInDiv() {
   addAnEventListenerToOrderByEndDateButton(auctions);
   addAnEventListenerToOrderByStartDateButton(auctions);
   addAnEventListenerToSearchButton(auctions);
+  addAnEventListenerToCreateFunction(auctions);
+
+}
+
+function addAnEventListenerToCreateFunction(auctions) {
+
+  let addAuktion = document.getElementById("addAuktion");
+
+  addAuktion.addEventListener("click", function() {
+    let titelInput = document.getElementById("adminTitel").value;
+    let startDateInput = document.getElementById("adminStartDate").value;
+    let endDateInput = document.getElementById("adminEndDate").value;
+    let prisInupt = document.getElementById("adminPris").value;
+    let beskrivningInput = document.getElementById("adminBeskrivning").value;
+
+    createAuction(titelInput,startDateInput,endDateInput,prisInupt,beskrivningInput);
+
+  });
 
 }
 
@@ -81,6 +99,7 @@ function addEventListenerForShowingBid(auctionID, showBidsButton) {
   let auktionDiv = document.getElementById("auktion-container");
   let showBidsButtonRef = document.getElementById(showBidsButton);
   showBidsButtonRef.addEventListener("click", async function() {
+
     var bidsInJSONFormat = await fetchBidForAuction(auctionID);
 
     var bidsText = "";
@@ -213,7 +232,7 @@ async function fetchBidForAuction(auction) {
 }
 
 //Skapa Auction
-function createAuction() {
+function createAuction(titel,startDate,endDate,pris,beskrivning) {
   fetch("https://nackowskis.azurewebsites.net/api/auktion/400/", {
     method: "POST",
     headers: {
@@ -221,13 +240,13 @@ function createAuction() {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      AuktionID: 75,
-      Beskrivning: "Fräscha skor som passar till allt, fanns i storlek 36-45",
+      AuktionID: 80,
+      Beskrivning: beskrivning,
       Gruppkod: 400,
-      SlutDatum: "2018-03-23T00:00:00",
-      StartDatum: "2018-03-13T00:00:00",
-      Titel: "Nike Skor",
-      Utropspris: 500
+      SlutDatum: endDate + "T00:00:00",
+      StartDatum: startDate + "T00:00:00",
+      Titel: titel,
+      Utropspris: pris
     })
   }).then(res => res.json()).then(res => console.log(res));
 }
@@ -256,7 +275,7 @@ function addBid(bid, auction) {
 }
 
 // Ta bort bud
-function removeBud(id) {
+function removeBid(id) {
   fetch("https://nackowskis.azurewebsites.net/api/bud/400/" + id, {
     method: "Delete",
     headers: {
