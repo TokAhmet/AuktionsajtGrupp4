@@ -20,14 +20,9 @@ function addAnEventListenerToCreateFunction() {
     let prisInput = document.getElementById("adminPris").value;
     let beskrivningInput = document.getElementById("adminBeskrivning").value;
 
-<<<<<<< HEAD
-    console.log(titelInput);
-    createAuction(titelInput,startDateInput,endDateInput,prisInupt,beskrivningInput);
 
-  });
-=======
     createAuction(titelInput,startDateInput,endDateInput,prisInput,beskrivningInput);
->>>>>>> master
+
 
 }
 
@@ -194,8 +189,20 @@ function populateStartPageWithDataOfAuctions(auctions) {
     var status = getAuctionStatus(endDate);
     var auctionID = JSON.stringify(auction.AuktionID).replace(/"/g, "");
 
-    var buttonName = "showBidsFor_" + auctionID;
+    var currentDate = new Date();
+    var endTime = Date.parse(endDate);
+    
+    if(currentDate < endTime){
+
+	var buttonName = "showBidsFor_" + auctionID;
     var button = "<button class='searchButton' id=" + buttonName + ">Show bids</button>";
+    }
+
+    else{
+    var buttonName = "showBidsFor_" + auctionID;
+    var button = "";
+    }
+    
 
     var text = "<h2>" + title + "</h2>" + button + "<p>" + description + "</p>" + "<p><span class='font-bold'>StartDatum:</span> " + startDate + "</p>" + "<p><span class='font-bold'>SlutDatum:</span> " + endDate + "</p>" + "<p><span class='font-bold'>Summa:</span> " + startingPrice + "kr</p>" + "<p><span class='font-bold'>Status:</span> " + status + "</p>";
 
@@ -209,6 +216,9 @@ function populateStartPageWithDataOfAuctions(auctions) {
 
 // Kolla om datum stämmer med Auktionens
 function getAuctionStatus(endDate) {
+
+	
+
   var currentdate = new Date();
   var endTime = Date.parse(endDate);
   var status;
@@ -216,7 +226,10 @@ function getAuctionStatus(endDate) {
     status = "Öppen";
   else
     status = "Stängd";
+	
+	
   return status;
+  
 }
 
 async function fetchAuctions() {
