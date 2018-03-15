@@ -11,7 +11,7 @@ async function populateListOfAuctionsInDiv() {
 
 }
 
-function addAnEventListenerToCreateFunction(auctions) {
+function addAnEventListenerToCreateFunction() {
 
   let addAuktion = document.getElementById("addAuktion");
 
@@ -22,6 +22,7 @@ function addAnEventListenerToCreateFunction(auctions) {
     let prisInupt = document.getElementById("adminPris").value;
     let beskrivningInput = document.getElementById("adminBeskrivning").value;
 
+    console.log(titelInput);
     createAuction(titelInput,startDateInput,endDateInput,prisInupt,beskrivningInput);
 
   });
@@ -112,14 +113,6 @@ function addEventListenerForShowingBid(auctionID, showBidsButton) {
       bidsText += "<br>" + JSON.stringify(bid.Summa) + "kr";
     }
 
-<<<<<<< HEAD
-
-    let input = document.createElement("input");
-    input.setAttribute("text", "text", "id", "setBidInput",);
-
-
-    /* let inputValue = document.getElementById("input").value; */
-=======
     /* auktionDiv.appendChild(input); */
     auktionDiv.innerHTML = " ";
     auktionDiv.className = "auktion-container2";
@@ -139,7 +132,7 @@ function addEventListenerForShowingBid(auctionID, showBidsButton) {
   });
 
 }
->>>>>>> master
+
 
 function addBidButtonEventListener(bidButton, auctionID, placeBidInput) {
   bidButton.addEventListener("click", async function() {
