@@ -22,7 +22,7 @@
   </header>
 
   <div class="contact">
-    <form>
+    <form  method="post">
       <ul>
           <h1>Lägg till Auktion</h1>
         <li class="li-forms">
@@ -46,7 +46,7 @@
           <input type="text" name="titel" id="adminBeskrivning">
         </li>
         <li class="li-forms">
-          <button id="addAuktion">Lägg till</button>
+          <input type="button" id="addAuktion" value="Lägg till" onclick="addAnEventListenerToCreateFunction()">
         </li>
       </ul>
     </form>

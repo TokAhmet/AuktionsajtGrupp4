@@ -7,24 +7,20 @@ async function populateListOfAuctionsInDiv() {
   addAnEventListenerToOrderByEndDateButton(auctions);
   addAnEventListenerToOrderByStartDateButton(auctions);
   addAnEventListenerToSearchButton(auctions);
-  addAnEventListenerToCreateFunction(auctions);
+  addAnEventListenerToCreateFunction();
 
 }
 
-function addAnEventListenerToCreateFunction(auctions) {
+function addAnEventListenerToCreateFunction() {
 
-  let addAuktion = document.getElementById("addAuktion");
 
-  addAuktion.addEventListener("click", function() {
     let titelInput = document.getElementById("adminTitel").value;
     let startDateInput = document.getElementById("adminStartDate").value;
     let endDateInput = document.getElementById("adminEndDate").value;
-    let prisInupt = document.getElementById("adminPris").value;
+    let prisInput = document.getElementById("adminPris").value;
     let beskrivningInput = document.getElementById("adminBeskrivning").value;
 
-    createAuction(titelInput,startDateInput,endDateInput,prisInupt,beskrivningInput);
-
-  });
+    createAuction(titelInput,startDateInput,endDateInput,prisInput,beskrivningInput);
 
 }
 
@@ -101,7 +97,7 @@ function addEventListenerForShowingBid(auctionID, showBidsButton) {
   showBidsButtonRef.addEventListener("click", async function() {
 
     var bidsInJSONFormat = await fetchBidForAuction(auctionID);
-
+    console.log(bidsInJSONFormat);
     var bidsText = "";
 
     for (let bid of bidsInJSONFormat) {
@@ -135,15 +131,13 @@ function addBidButtonEventListener(bidButton, auctionID, placeBidInput) {
 
     var bidsInJSONFormat = await fetchBidForAuction(auctionID);
 
-    bidsText = "";
+    let bidsText = "";
     for (let bid of bidsInJSONFormat) {
 
       bidsText += "<br>" + JSON.stringify(bid.Summa);
     }
 
     let bidValue = document.getElementById("placebid").value;
-
-    var newbidsText = bidsText.replace(/<br>/g, ',');
 
     let highestBid = 0;
 
@@ -174,7 +168,6 @@ function addBidButtonEventListener(bidButton, auctionID, placeBidInput) {
 
 function populateStartPageWithDataOfAuctions(auctions) {
   let auktionDiv = document.getElementById("auktion-container");
-
   for (let auction of auctions) {
 
     let content = document.createElement("div");
