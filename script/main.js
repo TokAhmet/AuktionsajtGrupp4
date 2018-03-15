@@ -7,6 +7,24 @@ async function populateListOfAuctionsInDiv() {
   addAnEventListenerToOrderByEndDateButton(auctions);
   addAnEventListenerToOrderByStartDateButton(auctions);
   addAnEventListenerToSearchButton(auctions);
+  addAnEventListenerToCreateFunction(auctions);
+
+}
+
+function addAnEventListenerToCreateFunction(auctions) {
+
+  let addAuktion = document.getElementById("addAuktion");
+
+  addAuktion.addEventListener("click", function() {
+    let titelInput = document.getElementById("adminTitel").value;
+    let startDateInput = document.getElementById("adminStartDate").value;
+    let endDateInput = document.getElementById("adminEndDate").value;
+    let prisInupt = document.getElementById("adminPris").value;
+    let beskrivningInput = document.getElementById("adminBeskrivning").value;
+
+    createAuction(titelInput,startDateInput,endDateInput,prisInupt,beskrivningInput);
+
+  });
 
 }
 
@@ -83,57 +101,85 @@ function addEventListenerForShowingBid(auctionID, showBidsButton) {
 
 
   let auktionDiv = document.getElementById("auktion-container");
-  let auktionDiv2 = document.getElementById("auktion-container2");
   let showBidsButtonRef = document.getElementById(showBidsButton);
   showBidsButtonRef.addEventListener("click", async function() {
+
     var bidsInJSONFormat = await fetchBidForAuction(auctionID);
+
     var bidsText = "";
-    bidsInJSONFormat.sort((a, b) => a.Summa < b.Summa);
 
     for (let bid of bidsInJSONFormat) {
-      bidsText += "<br>" + JSON.stringify(bid.Summa);
+      bidsText += "<br>" + JSON.stringify(bid.Summa) + "kr";
     }
 
+<<<<<<< HEAD
 
     let input = document.createElement("input");
     input.setAttribute("text", "text", "id", "setBidInput",);
 
 
     /* let inputValue = document.getElementById("input").value; */
-
-    let placeBidButton = "<button class='placeBidButton' id=" + "buttonName" + ">Place bid</button>";
-    let placeBidInput = "<input type='text' + id='placebid'+ </input>";
-
+=======
     /* auktionDiv.appendChild(input); */
     auktionDiv.innerHTML = " ";
-    auktionDiv2.innerHTML = "Here are all the bids for auction " + auctionID + ":" + bidsText + placeBidInput + placeBidButton;
+    auktionDiv.className = "auktion-container2";
+    auktionDiv.innerHTML = "<h3>Here are all the bids for auction" + auctionID + ":</h3>" + bidsText;
 
-    buttonName.addEventListener("click", function() {
+    var placeBidInput = document.createElement("input");
+    placeBidInput.type = "text";
+    placeBidInput.id = "placebid";
+    document.getElementById("bid-form").appendChild(placeBidInput);
 
-      let bidValue = document.getElementById("placebid").value;
+    var bidButton = document.createElement("Button"); // Create a <button> element
+    var bidButtonText = document.createTextNode("Add bid"); // Create a text node
+    bidButton.className = "bidButton";
+    bidButton.appendChild(bidButtonText); // Append the text to <button>
+    document.getElementById("bid-form").appendChild(bidButton);
+    addBidButtonEventListener(bidButton, auctionID, placeBidInput);
+  });
 
-      var newbidsText = bidsText.replace(/<br>/g, ',');
+}
+>>>>>>> master
 
-      let highestBid = bidsInJSONFormat.reduce(
+function addBidButtonEventListener(bidButton, auctionID, placeBidInput) {
+  bidButton.addEventListener("click", async function() {
+
+    let auktionDiv = document.getElementById("auktion-container");
+
+    var bidsInJSONFormat = await fetchBidForAuction(auctionID);
+
+    bidsText = "";
+    for (let bid of bidsInJSONFormat) {
+
+      bidsText += "<br>" + JSON.stringify(bid.Summa);
+    }
+
+    let bidValue = document.getElementById("placebid").value;
+
+    var newbidsText = bidsText.replace(/<br>/g, ',');
+
+    let highestBid = 0;
+
+    if (bidsInJSONFormat.length > 0) {
+
+      highestBid = parseInt(JSON.stringify(bidsInJSONFormat.reduce(
         (a, b) => a.Summa > b.Summa
         ? a
-        : b);
+        : b).Summa));
+    }
+    let sortedBid = bidsInJSONFormat.sort((a, b) => a.Summa < b.Summa);
 
-      let sortedBid = bidsInJSONFormat.sort((a, b) => a.Summa < b.Summa);
+    console.log(sortedBid);
 
-      console.log(sortedBid);
+    if (bidValue > highestBid) {
 
-      if (bidValue > highestBid.Summa) {
+      addBid(bidValue, auctionID);
+      auktionDiv.innerHTML = "Here are all the bids for auction " + auctionID + ":" + bidsText + "<br>" + "Your bid is" + " " + bidValue;
+    } else {
+      auktionDiv.innerHTML = "Here are all the bids for auction " + auctionID + ":" + "<br>" + "Your bid" + " " + bidValue + " " + "is lower than the highest bid which is " + highestBid;
+    }
 
-        addBid(bidValue, auctionID);
-        auktionDiv2.innerHTML = "Here are all the bids for auction " + auctionID + ":" + bidsText + "<br>" + "Your bid is" + " " + bidValue + placeBidInput + placeBidButton;
-      } else {
-
-        auktionDiv2.innerHTML = "Here are all the bids for auction " + auctionID + ":" + placeBidInput + placeBidButton + "<br>" + "Your bid" + " " + bidValue + " " + "is lower than the highest bid";
-
-      }
-
-    });
+    document.getElementById("placebid").value = "";
 
   });
 
@@ -159,7 +205,7 @@ function populateStartPageWithDataOfAuctions(auctions) {
     var buttonName = "showBidsFor_" + auctionID;
     var button = "<button class='searchButton' id=" + buttonName + ">Show bids</button>";
 
-    var text = "<h2>" + title + "</h2>" + button + "<p>" + description + "</p>" + "<p>" + startDate + "</p>" + "<p>" + endDate + "</p>" + "<p> Summa: " + startingPrice + "</p>" + "<p>Status: " + status + "</p>";
+    var text = "<h2>" + title + "</h2>" + button + "<p>" + description + "</p>" + "<p><span class='font-bold'>StartDatum:</span> " + startDate + "</p>" + "<p><span class='font-bold'>SlutDatum:</span> " + endDate + "</p>" + "<p><span class='font-bold'>Summa:</span> " + startingPrice + "kr</p>" + "<p><span class='font-bold'>Status:</span> " + status + "</p>";
 
     content.innerHTML = text;
 
@@ -179,13 +225,6 @@ function getAuctionStatus(endDate) {
   else
     status = "Stängd";
   return status;
-}
-
-async function populateBidsInDivofAuction(auction) {
-
-  let budResponse = await fetchBidForAuction(auction);
-  document.getElementById("auction").innerHTML = "Bids for auction" + auction + ": " + JSON.stringify(budResponse) + "<br />";
-  console.log(budResponse);
 }
 
 async function fetchAuctions() {
@@ -208,7 +247,7 @@ async function fetchBidForAuction(auction) {
 }
 
 //Skapa Auction
-function createAuction() {
+function createAuction(titel,startDate,endDate,pris,beskrivning) {
   fetch("https://nackowskis.azurewebsites.net/api/auktion/400/", {
     method: "POST",
     headers: {
@@ -216,13 +255,13 @@ function createAuction() {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      AuktionID: 75,
-      Beskrivning: "Fräscha skor som passar till allt, fanns i storlek 36-45",
+      AuktionID: 80,
+      Beskrivning: beskrivning,
       Gruppkod: 400,
-      SlutDatum: "2018-03-23T00:00:00",
-      StartDatum: "2018-03-13T00:00:00",
-      Titel: "Nike Skor",
-      Utropspris: 500
+      SlutDatum: endDate + "T00:00:00",
+      StartDatum: startDate + "T00:00:00",
+      Titel: titel,
+      Utropspris: pris
     })
   }).then(res => res.json()).then(res => console.log(res));
 }
@@ -251,7 +290,7 @@ function addBid(bid, auction) {
 }
 
 // Ta bort bud
-function removeBud(id) {
+function removeBid(id) {
   fetch("https://nackowskis.azurewebsites.net/api/bud/400/" + id, {
     method: "Delete",
     headers: {
