@@ -26,15 +26,10 @@ function addAnEventListenerToOrderByEndDateButton(auctions) {
     if (filteredAuctions.length != 0) {
       auktionDiv.className = "auktion-container";
       auktionDiv.innerHTML = " ";
-<<<<<<< HEAD
-	  populateStartPageWithDataOfAuctions(filteredAuctions);
 
+      populateStartPageWithDataOfAuctions(filteredAuctions);
     } 
     else {
-=======
-      populateStartPageWithDataOfAuctions(filteredAuctions);
-    } else {
->>>>>>> master
       auktionDiv.className = "auktion-search";
       auktionDiv.innerHTML = "Inga hittade matchningar";
     }
@@ -83,103 +78,9 @@ function addAnEventListenerToSearchButton(auctions) {
   });
 }
 
-<<<<<<< HEAD
- function addEventListenerForShowingBid(auctionID, showBidsButton){
 
- 	 let auktionDiv = document.getElementById("auktion-container");
-	  let auktionDiv2 = document.getElementById("auktion-container2");
-	  let showBidsButtonRef = document.getElementById(showBidsButton);
-	  showBidsButtonRef.addEventListener("click", async function() {
-	  var bidsInJSONFormat = await fetchBidForAuction(auctionID);
-	  var bidsText = ""
-	  bidsInJSONFormat.sort((a,b) => a.Summa < b.Summa);
-
-  	for (let bid of bidsInJSONFormat) {
-  		 bidsText += "<br>" + JSON.stringify(bid.Summa);
-	  	}
-
-      let input = document.createElement("input");
-      input.setAttribute("text", "text", "id", "setBidInput", );
-
-	  /*let inputValue = document.getElementById("input").value;*/
-
-      
-      
-      let placeBidButton = "<button class='placeBidButton' id=" + "buttonName" + ">Place bid</button>";
-      let placeBidInput = "<input type='text' + id='placebid'+ </input>";
-
-      /*auktionDiv.appendChild(input);*/
-      auktionDiv.innerHTML = " ";
-      auktionDiv2.innerHTML = "Here are all the bids for auction " + auctionID  + ":" + bidsText + placeBidInput + placeBidButton;
-
-     
-
-      buttonName.addEventListener("click", function(){
-
-      	let bidValue = document.getElementById("placebid").value;
-
-      	var newbidsText = bidsText.replace(/<br>/g,',');
-
-      	console.log(bidsText);
-
-      	console.log(newbidsText);
-
-      	console.log(bidsInJSONFormat);
-
-      	let highestBid = bidsInJSONFormat.reduce((a,b) => a.Summa > b.Summa ? a:b);
-
-      	let sortedBid = bidsInJSONFormat.sort((a,b) => a.Summa < b.Summa);
-
-      	console.log(sortedBid);
-
-
-
-      	if(bidValue > highestBid.Summa){
-
-      		addBid(bidValue, auctionID);
-      		auktionDiv2.innerHTML = "Here are all the bids for auction " + auctionID  + ":" + bidsText + "<br>" + "Your bid is" + " " + bidValue + placeBidInput + placeBidButton;
-      	}
-
-      	else{
-
-      		auktionDiv2.innerHTML = "Here are all the bids for auction " + auctionID  + ":" + placeBidInput + placeBidButton + "<br>" + "Your bid" + " " + bidValue + " " + "is lower than the highest bid" ;
-
-      	}
-      	
-
-      	
-
-/*
-      	auktionDiv2.innerHTML = "Here are all the bids for auction " + auctionID  + ":" + bidsText + "<br>" + "Your bid is" + " " + bidValue + placeBidInput + placeBidButton;
-
-      	var newbidsText = bidsText.replace(/<br>/g,',');
-
-      	let Ahmetslista = newbidsText.reduce(())
-
-
-    	if(bidValue > newbidsText[i]){
-    		
-    	}
-
-      	
-
-
-      	if (bidValue > bidsText){
-
-      		console.log("hej");
-      	}
-      	*/
-      	
-      });
-
-
-      // add an input for text
-      // add a button for adding bid
-      //add an event listener for this
-      //Similar to adding of eventlistener in populateStartPageWithDataOfAuctions
-=======
 function addEventListenerForShowingBid(auctionID, showBidsButton) {
->>>>>>> master
+
 
   let auktionDiv = document.getElementById("auktion-container");
   let auktionDiv2 = document.getElementById("auktion-container2");
@@ -193,14 +94,10 @@ function addEventListenerForShowingBid(auctionID, showBidsButton) {
       bidsText += "<br>" + JSON.stringify(bid.Summa);
     }
 
-<<<<<<< HEAD
-  });
 
-};
-=======
     let input = document.createElement("input");
     input.setAttribute("text", "text", "id", "setBidInput",);
->>>>>>> master
+
 
     /* let inputValue = document.getElementById("input").value; */
 
@@ -364,8 +261,5 @@ function removeBud(id) {
   }).then(res => res.json()).then(res => console.log(res));
 }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> master
 populateListOfAuctionsInDiv();

@@ -164,9 +164,7 @@ a{
   height: 10%;
 }
 
-<<<<<<< HEAD
 
-=======
 .contact {
   display: flex;
 
@@ -226,4 +224,4 @@ a{
 .li-forms input:focus, .li-forms textarea:focus {
   outline: 2px solid #000;
 }
->>>>>>> master
+
