@@ -18,8 +18,8 @@ ul {
 }
 
 a {
+  border: none;
   text-decoration: none;
-  border: 0px;
 }
 
 .font-bold{
@@ -48,6 +48,7 @@ a {
 }
 
 .main-name {
+  border: none;
   color: #fff;
   font-size: 2rem;
 }
@@ -134,7 +135,7 @@ a {
   animation: fadein 1s;
 }
 
-.bidButton {  
+.bidButton {
   margin: 1rem auto;
   width: 10%;
   height: 10%;
