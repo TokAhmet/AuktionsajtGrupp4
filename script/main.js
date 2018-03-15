@@ -217,18 +217,17 @@ function getAuctionStatus(endDate) {
   var currentdate = new Date();
   var endTime = Date.parse(endDate);
   var status;
-  if (currentdate < endTime){
+  if (currentdate < endTime)
+
  status = "Öppen";
-  }
+  
    
-  else{
-status = "Stängd";
+  else
 
-var displayNone = document.getElementByClass("searchButton").style.display = "none";
-
-  }
+	status = "Stängd";
+  
     
-  return status + displayNone;
+
 
   
 }
