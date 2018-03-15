@@ -100,7 +100,8 @@ function addEventListenerForShowingBid(auctionID, showBidsButton) {
 
   let auktionDiv = document.getElementById("auktion-container");
   let showBidsButtonRef = document.getElementById(showBidsButton);
-  showBidsButtonRef.addEventListener("click", async function() {
+
+   showBidsButtonRef.addEventListener("click", async function() {
 
     var bidsInJSONFormat = await fetchBidForAuction(auctionID);
     console.log(bidsInJSONFormat);
@@ -159,11 +160,13 @@ function addBidButtonEventListener(bidButton, auctionID, placeBidInput) {
 
     console.log(sortedBid);
 
+
     if (bidValue > highestBid) {
 
       addBid(bidValue, auctionID);
       auktionDiv.innerHTML = "Here are all the bids for auction " + auctionID + ":" + bidsText + "<br>" + "Your bid is" + " " + bidValue;
-    } else {
+    } 
+    else {
       auktionDiv.innerHTML = "Here are all the bids for auction " + auctionID + ":" + "<br>" + "Your bid" + " " + bidValue + " " + "is lower than the highest bid which is " + highestBid;
     }
 
@@ -192,18 +195,10 @@ function populateStartPageWithDataOfAuctions(auctions) {
     var currentDate = new Date();
     var endTime = Date.parse(endDate);
     
-    if(currentDate < endTime){
-
+    
 	var buttonName = "showBidsFor_" + auctionID;
     var button = "<button class='searchButton' id=" + buttonName + ">Show bids</button>";
-    }
-
-    else{
-    var buttonName = "showBidsFor_" + auctionID;
-    var button = "";
-    }
     
-
     var text = "<h2>" + title + "</h2>" + button + "<p>" + description + "</p>" + "<p><span class='font-bold'>StartDatum:</span> " + startDate + "</p>" + "<p><span class='font-bold'>SlutDatum:</span> " + endDate + "</p>" + "<p><span class='font-bold'>Summa:</span> " + startingPrice + "kr</p>" + "<p><span class='font-bold'>Status:</span> " + status + "</p>";
 
     content.innerHTML = text;
@@ -222,13 +217,19 @@ function getAuctionStatus(endDate) {
   var currentdate = new Date();
   var endTime = Date.parse(endDate);
   var status;
-  if (currentdate < endTime)
-    status = "Öppen";
-  else
-    status = "Stängd";
-	
-	
-  return status;
+  if (currentdate < endTime){
+ status = "Öppen";
+  }
+   
+  else{
+status = "Stängd";
+
+var displayNone = document.getElementByClass("searchButton").style.display = "none";
+
+  }
+    
+  return status + displayNone;
+
   
 }
 
