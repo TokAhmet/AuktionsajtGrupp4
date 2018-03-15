@@ -207,7 +207,7 @@ a {
   padding: 1.5rem;
 }
 
-.li-forms button {
+.addAuktion {
   box-shadow: 0 4px #666;
   background-color: #fff;
   border: 0;
@@ -217,11 +217,11 @@ a {
   margin: auto;
 }
 
-.li-forms button:hover {
+.addAuktion:hover {
   cursor: pointer;
 }
 
-.li-forms button:active {
+.addAuktion:active {
   box-shadow: 0 3px #666;
   transform: translateY(2px);
 }

@@ -180,7 +180,7 @@ function populateStartPageWithDataOfAuctions(auctions) {
     var startingPrice = JSON.stringify(auction.Utropspris).replace(/"/g, "");
     var status = getAuctionStatus(endDate);
     var auctionID = JSON.stringify(auction.AuktionID).replace(/"/g, "");
-
+    var currentdate = new Date();
     var buttonName = "showBidsFor_" + auctionID;
     var button = "<button class='searchButton' id=" + buttonName + ">Show bids</button>";
 
@@ -190,6 +190,15 @@ function populateStartPageWithDataOfAuctions(auctions) {
 
     auktionDiv.appendChild(content);
     addEventListenerForShowingBid(auctionID, buttonName);
+
+    if (getAuctionStatus(endDate) === "Stängd") {
+      var newText = "<h2>" + title + "</h2>" + "<p>" + description + "</p>" + "<p><span class='font-bold'>StartDatum:</span> " + startDate + "</p>" + "<p><span class='font-bold'>SlutDatum:</span> " + endDate + "</p>" + "<p><span class='font-bold'>Summa:</span> " + startingPrice + "kr</p>" + "<p><span class='font-bold'>Status:</span> " + status + "</p>";
+      content.innerHTML = newText;
+
+      auktionDiv.appendChild(content);
+    }
+
+
   }
 
 }
