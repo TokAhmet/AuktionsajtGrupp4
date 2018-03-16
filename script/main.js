@@ -1,3 +1,5 @@
+
+//Här läggs in alla Funktioner som sedan kör igenom allt
 async function populateListOfAuctionsInDiv() {
 
   let auctions = await fetchAuctions();
@@ -11,6 +13,7 @@ async function populateListOfAuctionsInDiv() {
 
 }
 
+//Funktion för att skapa en Auktion genom Admin-sidan
 function addAnEventListenerToCreateFunction() {
 
   let titelInput = document.getElementById("adminTitel").value;
@@ -23,6 +26,7 @@ function addAnEventListenerToCreateFunction() {
 
 }
 
+//Funktion för att sortera Auktionern genom deras Utropspris
 function addAnEventListenerToOrderByPris(auctions) {
   let auktionDiv = document.getElementById("auktion-container");
   let endDateButton = document.getElementById("endDateButton");
@@ -47,6 +51,7 @@ function addAnEventListenerToOrderByPris(auctions) {
   });
 }
 
+// Funktion för att kunna sortera Auktionerna genom deras Startdatum
 function addAnEventListenerToOrderByStartDateButton(auctions) {
   let auktionDiv = document.getElementById("auktion-container");
   let startDateButton = document.getElementById("startDateButton");
@@ -71,6 +76,7 @@ function addAnEventListenerToOrderByStartDateButton(auctions) {
   });
 }
 
+//Funktion för att kunna söka igenom Auktionerna och få ut det man har skrivit
 function addAnEventListenerToSearchButton(auctions) {
   let auktionDiv = document.getElementById("auktion-container");
   let searchButton = document.getElementById("searchButton");
@@ -89,6 +95,7 @@ function addAnEventListenerToSearchButton(auctions) {
   });
 }
 
+// Funktion för en knapp som visar Budhistoriken för Auktionen
 function addEventListenerForShowingBid(auctionID, showBidsButton) {
 
   let auktionDiv = document.getElementById("auktion-container");
@@ -125,6 +132,7 @@ function addEventListenerForShowingBid(auctionID, showBidsButton) {
 
 }
 
+// Funktionen för att kunna lägga bud till Auktioner
 function addBidButtonEventListener(bidButton, auctionID, placeBidInput) {
   bidButton.addEventListener("click", async function() {
 
@@ -168,6 +176,7 @@ function addBidButtonEventListener(bidButton, auctionID, placeBidInput) {
 
 }
 
+// Loopa igenom alla auktioner och lägg de in i varsin div med deras info
 function populateStartPageWithDataOfAuctions(auctions) {
   let auktionDiv = document.getElementById("auktion-container");
   for (let auction of auctions) {
@@ -215,6 +224,7 @@ function getAuctionStatus(endDate) {
   return status;
 }
 
+//Hämta ut specifik auction beronde på AuktionID
 async function fetchOneAuction(id) {
   var urlForGettingAuction = "https://nackowskis.azurewebsites.net/api/auktion/400/" + id;
 
@@ -223,6 +233,7 @@ async function fetchOneAuction(id) {
   return auctionInJsonFormat;
 }
 
+//Hämta ut alla Auktoner
 async function fetchAuctions() {
   var urlForGettingAuction = "https://nackowskis.azurewebsites.net/api/auktion/400/";
 
@@ -232,6 +243,7 @@ async function fetchAuctions() {
   return auctionInJsonFormat;
 }
 
+//Hämta ut alla bud för Autkionen
 async function fetchBidForAuction(auction) {
   var urlForGettingBid = "https://nackowskis.azurewebsites.net/api/bud/400/" + auction;
 
@@ -241,7 +253,7 @@ async function fetchBidForAuction(auction) {
   return bidInJsonFormat;
 }
 
-//Skapa Auction
+//Skapa Auction genom javascript
 function createAuction(titel, startDate, endDate, pris, beskrivning) {
   fetch("https://nackowskis.azurewebsites.net/api/auktion/400/", {
     method: "POST",
@@ -261,7 +273,7 @@ function createAuction(titel, startDate, endDate, pris, beskrivning) {
   }).then(res => res.json()).then(res => console.log(res));
 }
 
-//Ta bort Auktion
+//Ta bort Auktion beronde på AuktionID
 function removeAuction(id) {
   fetch("https://nackowskis.azurewebsites.net/api/auktion/400/" + id, {
     method: "DELETE",
@@ -272,7 +284,7 @@ function removeAuction(id) {
   }).then(res => res.json()).then(res => console.log(res));
 }
 
-//Skapa bud
+//Skapa bud genom javascript
 function addBid(bid, auction) {
   fetch("https://nackowskis.azurewebsites.net/api/bud/400/", {
     method: "POST",
@@ -284,7 +296,7 @@ function addBid(bid, auction) {
   }).then(res => res.json()).then(res => console.log(res));
 }
 
-// Ta bort bud
+// Ta bort bud beronde på budID
 function removeBid(id) {
   fetch("https://nackowskis.azurewebsites.net/api/bud/400/" + id, {
     method: "Delete",
