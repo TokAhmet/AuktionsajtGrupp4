@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
   <script type="text/javascript" src="script/main.js" defer></script>
   <title>Nackowskis</title>
 </head>
+
 <body>
   <header class="header-container">
     <div class="header-wrapper">
@@ -23,9 +25,9 @@
   </header>
 
   <div class="contact">
-    <form  method="post">
+    <form method="post">
       <ul>
-          <h1>Lägg till Auktion</h1>
+        <h1>Lägg till Auktion</h1>
         <li class="li-forms">
           <label for="namn">Titel</label>
           <input type="text" name="titel" id="adminTitel">
@@ -47,10 +49,24 @@
           <input type="text" name="titel" id="adminBeskrivning">
         </li>
         <li class="li-forms">
-          <input type="button" class="addAuktion" id="addAuktion" value="Lägg till" onclick="addAnEventListenerToCreateFunction()">
+          <input type="button" class="addAuktion" id="addAuktion" value="Lägg till" onclick="addAnEventListenerToCreateAuction()">
         </li>
       </ul>
     </form>
+    <form method="post" class="removeForm">
+      <ul>
+        <h1>Ta bort Auktion</h1>
+        <ul>
+          <li class="li-forms">
+            <label for="remove">AuktionID</label>
+            <input type="text" name="remove" id="adminRemove">
+          </li>
+          <li class="li-forms">
+            <input type="button" class="addAuktion" id="addAuktion" value="Ta bort" onclick="addAnEventListenerToRemoveAuction()">
+          </li>
+        </ul>
+    </form>
   </div>
 </body>
+
 </html>

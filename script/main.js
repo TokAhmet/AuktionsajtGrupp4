@@ -1,4 +1,3 @@
-
 //Här läggs in alla Funktioner som sedan kör igenom allt
 async function populateListOfAuctionsInDiv() {
 
@@ -9,12 +8,13 @@ async function populateListOfAuctionsInDiv() {
   addAnEventListenerToOrderByPris(auctions);
   addAnEventListenerToOrderByStartDateButton(auctions);
   addAnEventListenerToSearchButton(auctions);
-  addAnEventListenerToCreateFunction();
+  addAnEventListenerToCreateAuction();
+  addAnEventListenerToRemoveAuction();
 
 }
 
 //Funktion för att skapa en Auktion genom Admin-sidan
-function addAnEventListenerToCreateFunction() {
+function addAnEventListenerToCreateAuction() {
 
   let titelInput = document.getElementById("adminTitel").value;
   let startDateInput = document.getElementById("adminStartDate").value;
@@ -23,8 +23,15 @@ function addAnEventListenerToCreateFunction() {
   let beskrivningInput = document.getElementById("adminBeskrivning").value;
 
   createAuction(titelInput, startDateInput, endDateInput, prisInput, beskrivningInput);
-
 }
+
+function addAnEventListenerToRemoveAuction() {
+
+  let removeInput = document.getElementById("adminRemove").value;
+
+  removeAuction(removeInput);
+}
+
 
 //Funktion för att sortera Auktionern genom deras Utropspris
 function addAnEventListenerToOrderByPris(auctions) {
@@ -32,7 +39,7 @@ function addAnEventListenerToOrderByPris(auctions) {
   let endDateButton = document.getElementById("endDateButton");
   endDateButton.addEventListener("click", function() {
     let searchInput = document.getElementById("searchInput").value;
-    let filteredAuctions = auctions.filter(value => value.Titel.includes(searchInput));
+    let filteredAuctions = auctions.filter(value => value.Titel.toLowerCase().includes(searchInput.toLowerCase()) != 0);
 
     //Change to SlutDatum for opposite sort order
     function custom_sort(a, b) {
@@ -57,7 +64,7 @@ function addAnEventListenerToOrderByStartDateButton(auctions) {
   let startDateButton = document.getElementById("startDateButton");
   startDateButton.addEventListener("click", function() {
     let searchInput = document.getElementById("searchInput").value;
-    let filteredAuctions = auctions.filter(value => value.Titel.includes(searchInput));
+    let filteredAuctions = auctions.filter(value => value.Titel.toLowerCase().includes(searchInput.toLowerCase()) != 0);
 
     //Change to StartDatum for opposite sort order
     function custom_sort(a, b) {
@@ -80,10 +87,11 @@ function addAnEventListenerToOrderByStartDateButton(auctions) {
 function addAnEventListenerToSearchButton(auctions) {
   let auktionDiv = document.getElementById("auktion-container");
   let searchButton = document.getElementById("searchButton");
+  let searchInput = document.getElementById("searchInput");
+
   searchButton.addEventListener("click", function() {
     let searchInput = document.getElementById("searchInput").value;
-    let filteredAuctions = auctions.filter(value => value.Titel.includes(searchInput));
-
+    let filteredAuctions = auctions.filter(value => value.Titel.toLowerCase().includes(searchInput.toLowerCase()) != 0);
     if (filteredAuctions.length != 0) {
       auktionDiv.className = "auktion-container";
       auktionDiv.innerHTML = " ";
@@ -92,6 +100,20 @@ function addAnEventListenerToSearchButton(auctions) {
       auktionDiv.className = "auktion-search";
       auktionDiv.innerHTML = "Inga hittade matchningar";
     }
+  });
+  searchInput.addEventListener("keypress", function(e) {
+    var key = e.keyCode;
+    if (key == 13) {
+    let filteredAuctions = auctions.filter(value => value.Titel.toLowerCase().includes(searchInput.value.toLowerCase()) != 0);
+    if (filteredAuctions.length != 0) {
+      auktionDiv.className = "auktion-container";
+      auktionDiv.innerHTML = " ";
+      populateStartPageWithDataOfAuctions(filteredAuctions);
+    } else {
+      auktionDiv.className = "auktion-search";
+      auktionDiv.innerHTML = "Inga hittade matchningar";
+    }
+  }
   });
 }
 
@@ -180,16 +202,14 @@ function addBidButtonEventListener(bidButton, auctionID, placeBidInput) {
 function populateStartPageWithDataOfAuctions(auctions) {
   let auktionDiv = document.getElementById("auktion-container");
   for (let auction of auctions) {
-
     let content = document.createElement("div");
     content.setAttribute("class", "content");
-
     var title = JSON.stringify(auction.Titel).replace(/"/g, "");
     var description = JSON.stringify(auction.Beskrivning).replace(/"/g, "");
     var startDate = JSON.stringify(auction.StartDatum).replace(/"/g, "");
     var endDate = JSON.stringify(auction.SlutDatum).replace(/"/g, "");
     var startingPrice = JSON.stringify(auction.Utropspris).replace(/"/g, "");
-    var status = getAuctionStatus(endDate);
+    var status = getAuctionStatus(startDate,endDate);
     var auctionID = JSON.stringify(auction.AuktionID).replace(/"/g, "");
     var buttonName = "showBidsFor_" + auctionID;
     var button = "<button class='addAuktion' id=" + buttonName + ">Show bids</button>";
@@ -213,11 +233,12 @@ function populateStartPageWithDataOfAuctions(auctions) {
 }
 
 // Kolla om datum stämmer med Auktionens
-function getAuctionStatus(endDate) {
+function getAuctionStatus(startDate,endDate) {
   var currentdate = new Date();
+  var startTime = Date.parse(startDate)
   var endTime = Date.parse(endDate);
   var status;
-  if (currentdate < endTime)
+  if (currentdate < endTime && currentdate > startTime)
     status = "Öppen";
   else
     status = "Stängd";
