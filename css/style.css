@@ -204,6 +204,11 @@ a {
   border: 1px solid black;
 }
 
+.removeForm{
+  height: 10%;
+
+}
+
 .contact h1 {
   font-size: 2rem;
   text-align: center;
