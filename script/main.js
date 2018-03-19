@@ -293,7 +293,10 @@ function addBidButtonEventListener(bidButton, auctionID, placeBidInput) {
 
       addBid(bidValue, auctionID);
       auktionDiv.innerHTML = "Here are all the bids for <span class='font-bold'>" + auction.Titel + "</span>" + bidsText + "<br>" + "Your bid is" + " " + bidValue + "kr";
-    } else {
+    } else if (bidValue==highestBid){
+      auktionDiv.innerHTML = "Here are all the bids for <span class='font-bold'>" + auction.Titel + "</span>" + "<br>" + "Your bid" + " " + bidValue + "kr  " + "is equal to the highest bid which is " + highestBid + "kr";
+    }
+    else {
       auktionDiv.innerHTML = "Here are all the bids for <span class='font-bold'>" + auction.Titel + "</span>" + "<br>" + "Your bid" + " " + bidValue + "kr  " + "is lower than the highest bid which is " + highestBid + "kr";
     }
 
