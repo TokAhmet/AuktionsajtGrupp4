@@ -6,7 +6,7 @@ async function populateListOfAuctionsInDiv() {
   populateStartPageWithDataOfOpenAuctions(auctions);
 
   addAnEventListenerToOrderByPrice(auctions);
-  addAnEventListenerToOrderByStartDateButton(auctions);
+  addAnEventListenerToOrderByEndDateButton(auctions);
   addAnEventListenerToSearchButton(auctions);
   addAnEventListenerToCreateAuction();
   addAnEventListenerToRemoveAuction();
@@ -67,17 +67,17 @@ function addAnEventListenerToSearchButton(auctions) {
   });
 }
 
-// Funktion för att kunna sortera Auktionerna genom deras Startdatum
-function addAnEventListenerToOrderByStartDateButton(auctions) {
+// Funktion för att kunna sortera Auktionerna genom deras Slutdatum
+function addAnEventListenerToOrderByEndDateButton(auctions) {
   let auktionDiv = document.getElementById("auktion-container");
-  let startDateButton = document.getElementById("startDateButton");
-  startDateButton.addEventListener("click", function() {
+  let endDateButton = document.getElementById("endDateButton");
+  endDateButton.addEventListener("click", function() {
     let searchInput = document.getElementById("searchInput").value;
     let filteredAuctions = auctions.filter(value => value.Titel.toLowerCase().includes(searchInput.toLowerCase()) != 0);
 
-    //Change to StartDatum for opposite sort order
+    //Change to SlutDatum for opposite sort order
     function custom_sort(a, b) {
-      return new Date(a.StartDatum).getTime() - new Date(b.StartDatum).getTime();
+      return new Date(a.SlutDatum).getTime() - new Date(b.SlutDatum).getTime();
     }
     filteredAuctions.sort(custom_sort);
 
@@ -165,6 +165,12 @@ async function populateStartPageWithDataOfAuctions(auctions) {
 // Loopa igenom alla auktioner och lägg de in i varsin div med deras info
 async function populateStartPageWithDataOfOpenAuctions(auctions) {
   let auktionDiv = document.getElementById("auktion-container");
+
+    function custom_sort(a, b) {
+      return new Date(a.SlutDatum).getTime() - new Date(b.SlutDatum).getTime();
+    }
+    auctions.sort(custom_sort);
+
   for (let auction of auctions) {
     let content = document.createElement("div");
     content.setAttribute("class", "content");
