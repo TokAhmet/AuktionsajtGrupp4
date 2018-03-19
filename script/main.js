@@ -135,21 +135,45 @@ async function populateStartPageWithDataOfAuctions(auctions) {
     let button = "<button class='addAuktion' id=" + buttonName + ">Show bids</button>";
 
     let bidsInJSONFormat = await fetchBidForAuction(auctionID);
-    let highestBid = parseInt(JSON.stringify(bidsInJSONFormat.reduce((a, b) => a.Summa > b.Summa ? a : b).Summa));
+    let highestBid = 0;
 
-    let text = "<h2>" + title + "</h2>" + "<p>" + description + "</p>" + "<p><span class='font-bold'>StartDatum:</span> " + startDate + "</p>" + "<p><span class='font-bold'>SlutDatum:</span> " + endDate + "</p>" + "<p><span class='font-bold'>Utropspris:</span> " + startingPrice + "kr</p>" + "<p class='status-open'><span class='font-bold'>Status:</span> " + status + "</p>" + button;
+    if (bidsInJSONFormat.length > 0) {
+
+      highestBid = parseInt(JSON.stringify(bidsInJSONFormat.reduce(
+        (a, b) => a.Summa > b.Summa
+        ? a
+        : b).Summa));
+    }
+
+    let text = "<h2>" + title + "</h2>" + "<p>" + description + "</p>" + "<p><span class='font-bold'>StartDatum:</span> " + startDate + "</p>" +
+    "<p><span class='font-bold'>SlutDatum:</span> " + endDate + "</p>" + "<p><span class='font-bold'>Utropspris:</span> " + startingPrice + "kr</p>" + "<p class='status-open'><span class='font-bold'>Status:</span> " + status + "</p>" + button;
     content.innerHTML = text;
     auktionDiv.appendChild(content);
 
     addEventListenerForShowingBid(auctionID, buttonName);
 
     if (status === "Stängd") {
-      let newText = "<h2>" + title + "</h2>" + "<p>" + description + "</p>" + "<p><span class='font-bold'>StartDatum:</span> " + startDate + "</p>" + "<p><span class='font-bold'>SlutDatum:</span> " + endDate + "</p>" + "<p><span class='font-bold'>Utropspris:</span> " + startingPrice + "kr</p>" + "<p><span class='font-bold'>Högsta Bud:</span> " + highestBid + "kr</p>" + "<p class='status-closed'><span class='font-bold'>Status:</span> " + status + "</p>";
+      let newText = "<h2>" + title + "</h2>" + "<p>" + description + "</p>" + "<p><span class='font-bold'>StartDatum:</span> " + startDate + "</p>" +
+      "<p><span class='font-bold'>SlutDatum:</span> " + endDate + "</p>" + "<p><span class='font-bold'>Utropspris:</span> " + startingPrice + "kr</p>" + "<p><span class='font-bold'>Högsta Bud:</span> " + highestBid + "kr</p>" +
+      "<p class='status-closed'><span class='font-bold'>Status:</span> " + status + "</p>";
       content.innerHTML = newText;
       auktionDiv.appendChild(content);
     }
 
   }
+}
+
+// Kolla om datum stämmer med Auktionens
+function getAuctionStatus(startDate, endDate) {
+  var currentdate = new Date();
+  var startTime = Date.parse(startDate);
+  var endTime = Date.parse(endDate);
+  var status;
+  if (currentdate < endTime && currentdate > startTime)
+    status = "Öppen";
+  else
+    status = "Stängd";
+  return status;
 }
 
 // Funktion för en knapp som visar Budhistoriken för Auktionen
@@ -190,19 +214,6 @@ function addEventListenerForShowingBid(auctionID, showBidsButton) {
 
 }
 
-// Kolla om datum stämmer med Auktionens
-function getAuctionStatus(startDate, endDate) {
-  var currentdate = new Date();
-  var startTime = Date.parse(startDate);
-  var endTime = Date.parse(endDate);
-  var status;
-  if (currentdate < endTime && currentdate > startTime)
-    status = "Öppen";
-  else
-    status = "Stängd";
-  return status;
-}
-
 // Funktionen för att kunna lägga bud till Auktioner
 function addBidButtonEventListener(bidButton, auctionID, placeBidInput) {
   bidButton.addEventListener("click", async function() {
@@ -215,7 +226,7 @@ function addBidButtonEventListener(bidButton, auctionID, placeBidInput) {
     let bidsText = "";
     for (let bid of bidsInJSONFormat) {
 
-      bidsText += "<br>" + JSON.stringify(bid.Summa);
+      bidsText += "<br>" + JSON.stringify(bid.Summa) + "kr";
     }
 
     let bidValue = document.getElementById("placebid").value;
@@ -229,6 +240,7 @@ function addBidButtonEventListener(bidButton, auctionID, placeBidInput) {
         ? a
         : b).Summa));
     }
+
     let sortedBid = bidsInJSONFormat.sort((a, b) => a.Summa < b.Summa);
 
     console.log(sortedBid);
@@ -236,9 +248,9 @@ function addBidButtonEventListener(bidButton, auctionID, placeBidInput) {
     if (bidValue > highestBid) {
 
       addBid(bidValue, auctionID);
-      auktionDiv.innerHTML = "Here are all the bids for <span class='font-bold'>" + auction.Titel + "</span>" + bidsText + "<br>" + "Your bid is" + " " + bidValue;
+      auktionDiv.innerHTML = "Here are all the bids for <span class='font-bold'>" + auction.Titel + "</span>" + bidsText + "<br>" + "Your bid is" + " " + bidValue + "kr";
     } else {
-      auktionDiv.innerHTML = "Here are all the bids for <span class='font-bold'>" + auction.Titel + "</span>" + "<br>" + "Your bid" + " " + bidValue + " " + "is lower than the highest bid which is " + highestBid;
+      auktionDiv.innerHTML = "Here are all the bids for <span class='font-bold'>" + auction.Titel + "</span>" + "<br>" + "Your bid" + " " + bidValue + "kr  " + "is lower than the highest bid which is " + highestBid + "kr";
     }
 
     document.getElementById("placebid").value = "";
@@ -313,7 +325,10 @@ function addBid(bid, auction) {
       "Accept": "application/json, text/plain, */*",
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({AuktionID: auction, Summa: bid})
+    body: JSON.stringify({
+      AuktionID: auction,
+      Summa: bid
+    })
   }).then(res => res.json()).then(res => console.log(res));
 }
 
