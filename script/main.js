@@ -1,35 +1,10 @@
-//Här läggs in alla Funktioner som sedan kör igenom allt
 async function populateListOfAuctionsInDiv() {
 
   let auctions = await fetchAuctions();
-
   populateStartPageWithDataOfOpenAuctions(auctions);
-
   addAnEventListenerToOrderByPrice(auctions);
   addAnEventListenerToOrderByEndDateButton(auctions);
   addAnEventListenerToSearchButton(auctions);
-  addAnEventListenerToCreateAuction();
-  addAnEventListenerToRemoveAuction();
-
-}
-
-//Funktion för att skapa en Auktion genom Admin-sidan
-function addAnEventListenerToCreateAuction() {
-
-  let titelInput = document.getElementById("adminTitel").value;
-  let startDateInput = document.getElementById("adminStartDate").value;
-  let endDateInput = document.getElementById("adminEndDate").value;
-  let prisInput = document.getElementById("adminPris").value;
-  let beskrivningInput = document.getElementById("adminBeskrivning").value;
-
-  createAuction(titelInput, startDateInput, endDateInput, prisInput, beskrivningInput);
-}
-
-//Ta bort Auktion beroende på AuktionID
-function addAnEventListenerToRemoveAuction() {
-
-  let removeInput = document.getElementById("adminRemove").value;
-  removeAuction(removeInput);
 
 }
 
@@ -331,37 +306,6 @@ async function fetchBidForAuction(auction) {
   let bidInJsonFormat = await bidForAuction.json();
 
   return bidInJsonFormat;
-}
-
-//Skapa Auction genom javascript
-function createAuction(titel, startDate, endDate, pris, beskrivning) {
-  fetch("https://nackowskis.azurewebsites.net/api/auktion/400/", {
-    method: "POST",
-    headers: {
-      "Accept": "application/json, text/plain, */*",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      AuktionID: 80,
-      Beskrivning: beskrivning,
-      Gruppkod: 400,
-      SlutDatum: endDate  + " T00:00:00",
-      StartDatum: startDate + " T00:00:00",
-      Titel: titel,
-      Utropspris: pris
-    })
-  }).then(res => res.json()).then(res => console.log(res));
-}
-
-//Ta bort Auktion beronde på AuktionID
-function removeAuction(id) {
-  fetch("https://nackowskis.azurewebsites.net/api/auktion/400/" + id, {
-    method: "DELETE",
-    headers: {
-      "Accept": "application/json, text/plain, */*",
-      "Content-Type": "application/json"
-    }
-  }).then(res => res.json()).then(res => console.log(res));
 }
 
 //Skapa bud genom javascript
