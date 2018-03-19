@@ -3,7 +3,7 @@ async function populateListOfAuctionsInDiv() {
 
   let auctions = await fetchAuctions();
 
-  populateStartPageWithDataOfAuctions(auctions);
+  populateStartPageWithDataOfOpenAuctions(auctions);
 
   addAnEventListenerToOrderByPrice(auctions);
   addAnEventListenerToOrderByStartDateButton(auctions);
@@ -160,6 +160,44 @@ async function populateStartPageWithDataOfAuctions(auctions) {
       auktionDiv.appendChild(content);
     }
 
+  }
+}
+// Loopa igenom alla auktioner och lägg de in i varsin div med deras info
+async function populateStartPageWithDataOfOpenAuctions(auctions) {
+  let auktionDiv = document.getElementById("auktion-container");
+  for (let auction of auctions) {
+    let content = document.createElement("div");
+    content.setAttribute("class", "content");
+    let title = JSON.stringify(auction.Titel).replace(/"/g, "");
+    let description = JSON.stringify(auction.Beskrivning).replace(/"/g, "");
+    let startDate = JSON.stringify(auction.StartDatum).replace(/"/g, "");
+    let endDate = JSON.stringify(auction.SlutDatum).replace(/"/g, "");
+    let startingPrice = JSON.stringify(auction.Utropspris).replace(/"/g, "");
+    let auctionID = JSON.stringify(auction.AuktionID).replace(/"/g, "");
+
+    let status = getAuctionStatus(startDate, endDate);
+
+    let buttonName = "showBidsFor_" + auctionID;
+    let button = "<button class='addAuktion' id=" + buttonName + ">Show bids</button>";
+
+    let bidsInJSONFormat = await fetchBidForAuction(auctionID);
+    let highestBid = 0;
+
+    if (bidsInJSONFormat.length > 0) {
+
+      highestBid = parseInt(JSON.stringify(bidsInJSONFormat.reduce(
+        (a, b) => a.Summa > b.Summa
+        ? a
+        : b).Summa));
+    }
+
+    let text = "<h2>" + title + "</h2>" + "<p>" + description + "</p>" + "<p><span class='font-bold'>StartDatum:</span> " + startDate + "</p>" +
+    "<p><span class='font-bold'>SlutDatum:</span> " + endDate + "</p>" + "<p><span class='font-bold'>Utropspris:</span> " + startingPrice + "kr</p>" + "<p class='status-open'><span class='font-bold'>Status:</span> " + status + "</p>" + button;
+    if (status != "Stängd") {
+    content.innerHTML = text;
+    auktionDiv.appendChild(content);
+    addEventListenerForShowingBid(auctionID, buttonName);
+    }  
   }
 }
 
