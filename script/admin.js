@@ -26,26 +26,28 @@ function addAnEventListenerToRemoveAuction() {
 
   let removeAuktion = document.getElementById("removeAuktion");
  
-  removeAuktion.addEventListener("click", function() {
+  removeAuktion.addEventListener("click", async function() {
     let removeInput = document.getElementById("adminRemove").value;
-    removeAuction(removeInput);
+
+    var auctions = await fetchAuctions();
+    var filteredAuctions = auctions.filter(value => JSON.stringify(value.Titel).includes(removeInput));
+    if(filteredAuctions.length == 1){
+      var auctionId = JSON.stringify(filteredAuctions[0].AuktionID);
+ 
+      var bids = fetchBidForAuction(auctionId);
+      if(bids.length == 0){
+      removeAuction(auctionId);   
+      } else {
+        alert("Auktion har redan startat och kan inte tas bort :P");
+      }
+   
+    }
+
+
 });
 
 }
 
-
-
-//Hämta ut alla Auktoner
-async function fetchAuctions() {
-  var urlForGettingAuction = "https://nackowskis.azurewebsites.net/api/auktion/400/";
-
-  let auctionData = await fetch(urlForGettingAuction);
-  let auctionInJsonFormat = await auctionData.json();
-  console.log(auctionInJsonFormat);
-  return auctionInJsonFormat;
-}
-
-//Hämta ut alla bud för Autkionen
 async function fetchBidForAuction(auction) {
   var urlForGettingBid = "https://nackowskis.azurewebsites.net/api/bud/400/" + auction;
 
@@ -55,7 +57,15 @@ async function fetchBidForAuction(auction) {
   return bidInJsonFormat;
 }
 
-//Skapa Auction genom javascript
+async function fetchAuctions() {
+  var urlForGettingAuction = "https://nackowskis.azurewebsites.net/api/auktion/400/";
+
+  let auctionData = await fetch(urlForGettingAuction);
+  let auctionInJsonFormat = await auctionData.json();
+  console.log(auctionInJsonFormat);
+  return auctionInJsonFormat;
+}
+
 function createAuction(titel, startDate, endDate, pris, beskrivning) {
   fetch("https://nackowskis.azurewebsites.net/api/auktion/400/", {
     method: "POST",
@@ -64,7 +74,6 @@ function createAuction(titel, startDate, endDate, pris, beskrivning) {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      AuktionID: 80,
       Beskrivning: beskrivning,
       Gruppkod: 400,
       SlutDatum: endDate  + " T00:00:00",
@@ -75,7 +84,6 @@ function createAuction(titel, startDate, endDate, pris, beskrivning) {
   }).then(res => res.json()).then(res => console.log(res));
 }
 
-//Ta bort Auktion beronde på AuktionID
 function removeAuction(id) {
   fetch("https://nackowskis.azurewebsites.net/api/auktion/400/" + id, {
     method: "DELETE",
