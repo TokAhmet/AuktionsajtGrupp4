@@ -161,24 +161,13 @@ async function populateStartPageWithDataOfOpenAuctions(auctions) {
     let buttonName = "showBidsFor_" + auctionID;
     let button = "<button class='addAuktion' id=" + buttonName + ">Show bids</button>";
 
-    let bidsInJSONFormat = await fetchBidForAuction(auctionID);
-    let highestBid = 0;
-
-    if (bidsInJSONFormat.length > 0) {
-
-      highestBid = parseInt(JSON.stringify(bidsInJSONFormat.reduce(
-        (a, b) => a.Summa > b.Summa
-        ? a
-        : b).Summa));
-    }
-
     let text = "<h2>" + title + "</h2>" + "<p>" + description + "</p>" + "<p><span class='font-bold'>StartDatum:</span> " + startDate + "</p>" +
     "<p><span class='font-bold'>SlutDatum:</span> " + endDate + "</p>" + "<p><span class='font-bold'>Utropspris:</span> " + startingPrice + "kr</p>" + "<p class='status-open'><span class='font-bold'>Status:</span> " + status + "</p>" + button;
     if (status != "Stängd") {
     content.innerHTML = text;
     auktionDiv.appendChild(content);
     addEventListenerForShowingBid(auctionID, buttonName);
-    }  
+    }
   }
 }
 
