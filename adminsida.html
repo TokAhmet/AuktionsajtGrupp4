@@ -1,30 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <script type="text/javascript" src="script/main.js" defer></script>
+  <script type="text/javascript" src="script/admin.js" defer></script>
   <title>Nackowskis</title>
 </head>
+
 <body>
   <header class="header-container">
     <div class="header-wrapper">
       <a href="index.html"><h1 class="main-name">Nackowskis</h1></a>
-      <div class="search-content">
-        <input type="text" id="searchInput" placeholder="Search your auktion!" />
-        <button class="searchButton" id="searchButton">Search</button>
-        <button class="searchButton" id="startDateButton">Sort by start date</button>
-        <button class="searchButton" id="endDateButton">Sort by end date</button>
-      </div>
     </div>
   </header>
 
   <div class="contact">
-    <form  method="post">
+    <form method="post">
       <ul>
-          <h1>Lägg till Auktion</h1>
+        <h1>Lägg till Auktion</h1>
         <li class="li-forms">
           <label for="namn">Titel</label>
           <input type="text" name="titel" id="adminTitel">
@@ -47,15 +44,33 @@
         </li>
         <li class="li-forms">
 <<<<<<< HEAD
+<<<<<<< HEAD
 
           <input type="button" id="addAuktion" value="Lägg till" onclick="addAnEventListenerToCreateFunction()">
 
 =======
           <input type="button" class="addAuktion" id="addAuktion" value="Lägg till" onclick="addAnEventListenerToCreateFunction()">
 >>>>>>> master
+=======
+          <input type="button" class="addAuktion" id="addAuktion" value="Lägg till">
+>>>>>>> master
         </li>
       </ul>
     </form>
+    <form method="post" class="removeForm">
+      <ul>
+        <h1>Ta bort Auktion</h1>
+        <ul>
+          <li class="li-forms">
+            <label for="remove">AuktionID</label>
+            <input type="text" name="remove" id="adminRemove">
+          </li>
+          <li class="li-forms">
+            <input type="button" class="addAuktion" id="removeAuktion" value="Ta bort">
+          </li>
+        </ul>
+    </form>
   </div>
 </body>
+
 </html>
