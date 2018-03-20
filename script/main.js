@@ -191,17 +191,10 @@ function populateStartPageWithDataOfAuctions(auctions) {
     var startingPrice = JSON.stringify(auction.Utropspris).replace(/"/g, "");
     var status = getAuctionStatus(endDate);
     var auctionID = JSON.stringify(auction.AuktionID).replace(/"/g, "");
-<<<<<<< HEAD
 
-    var currentDate = new Date();
-    var endTime = Date.parse(endDate);
-    
-    
-	var buttonName = "showBidsFor_" + auctionID;
-=======
     var currentdate = new Date();
     var buttonName = "showBidsFor_" + auctionID;
->>>>>>> master
+
     var button = "<button class='searchButton' id=" + buttonName + ">Show bids</button>";
     
     var text = "<h2>" + title + "</h2>" + button + "<p>" + description + "</p>" + "<p><span class='font-bold'>StartDatum:</span> " + startDate + "</p>" + "<p><span class='font-bold'>SlutDatum:</span> " + endDate + "</p>" + "<p><span class='font-bold'>Summa:</span> " + startingPrice + "kr</p>" + "<p><span class='font-bold'>Status:</span> " + status + "</p>";
