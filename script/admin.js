@@ -8,7 +8,7 @@ async function setupAdmin() {
 function addAnEventListenerToCreateAuction() {
 
   let addAuktion = document.getElementById("addAuktion");
- 
+
     addAuktion.addEventListener("click", function() {
 
     let titelInput = document.getElementById("adminTitel").value;
@@ -25,27 +25,14 @@ function addAnEventListenerToCreateAuction() {
 function addAnEventListenerToRemoveAuction() {
 
   let removeAuktion = document.getElementById("removeAuktion");
- 
+
   removeAuktion.addEventListener("click", async function() {
-    let removeInput = document.getElementById("adminRemove").value;
 
-    var auctions = await fetchAuctions();
-    var filteredAuctions = auctions.filter(value => JSON.stringify(value.Titel).includes(removeInput));
-    if(filteredAuctions.length == 1){
-      var auctionId = JSON.stringify(filteredAuctions[0].AuktionID);
- 
-      var bids = fetchBidForAuction(auctionId);
-      if(bids.length == 0){
-      removeAuction(auctionId);   
-      } else {
-        alert("Auktion har redan startat och kan inte tas bort :P");
-      }
-   
-    }
+      let removeInput = document.getElementById("adminRemove").value;
+      removeAuction(removeInput);
 
-
-});
-
+    });
+    
 }
 
 async function fetchBidForAuction(auction) {
